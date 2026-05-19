@@ -4,11 +4,10 @@ type Props = {
   children: React.ReactNode;
   className?: string;
   delay?: number;
-  as?: keyof React.JSX.IntrinsicElements;
 };
 
-export default function Reveal({ children, className = "", delay = 0, as: Tag = "div" }: Props) {
-  const ref = useRef<HTMLElement | null>(null);
+export default function Reveal({ children, className = "", delay = 0 }: Props) {
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -28,6 +27,9 @@ export default function Reveal({ children, className = "", delay = 0, as: Tag = 
     return () => io.disconnect();
   }, [delay]);
 
-  // @ts-expect-error dynamic tag
-  return <Tag ref={ref} className={`fade-up ${className}`}>{children}</Tag>;
+  return (
+    <div ref={ref} className={`fade-up ${className}`}>
+      {children}
+    </div>
+  );
 }
