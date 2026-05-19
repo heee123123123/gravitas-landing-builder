@@ -29,7 +29,7 @@ function Index() {
 
       <main className="relative z-10">
         {/* HERO — full bleed image with overlaid text */}
-        <section className="relative h-[98.4vh] w-full overflow-hidden">
+        <section className="relative h-[99.2vh] w-full overflow-hidden">
           <img
             src={heroImg}
             alt=""
