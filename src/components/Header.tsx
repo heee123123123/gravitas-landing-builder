@@ -44,10 +44,10 @@ export default function Header() {
       >
         <a
           href="#top"
-          className="font-serif text-2xl tracking-wide md:text-3xl"
+          className="font-serif text-2xl tracking-wide uppercase md:text-3xl"
           style={{ color: "#0b131e" }}
         >
-          D.C. Norman
+          D. C. NORMAN
         </a>
 
         <button
