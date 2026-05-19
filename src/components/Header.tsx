@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const ITEMS = [
   { label: "About", href: "#about" },
@@ -8,6 +8,8 @@ const ITEMS = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -16,9 +18,29 @@ export default function Header() {
     };
   }, [open]);
 
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y < 40) {
+        setHidden(false);
+      } else if (y > lastY.current + 4) {
+        setHidden(true);
+      } else if (y < lastY.current - 4) {
+        setHidden(false);
+      }
+      lastY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-6 md:px-12 md:py-8">
+      <header
+        className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-6 md:px-12 md:py-8 transition-opacity duration-700 ease-out ${
+          hidden && !open ? "opacity-0 pointer-events-none" : "opacity-100"
+        }`}
+      >
         <a
           href="#top"
           className="font-serif text-xl tracking-wide text-foreground md:text-2xl"
@@ -30,7 +52,7 @@ export default function Header() {
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((o) => !o)}
-          className="relative z-[60] h-8 w-10"
+          className="relative z-[60] h-8 w-6"
         >
           <span
             className="absolute left-0 block h-px w-full bg-primary transition-all duration-500 ease-out"
@@ -58,7 +80,6 @@ export default function Header() {
         className={`fixed inset-0 z-40 bg-background transition-all duration-700 ease-out ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
-        style={{ transitionProperty: "opacity, transform" }}
       >
         <nav
           className={`flex h-full flex-col items-center justify-center gap-10 transition-transform duration-700 ease-out ${
