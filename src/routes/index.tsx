@@ -90,7 +90,7 @@ function Index() {
               fill="none"
               stroke="currentColor"
               strokeWidth="1"
-              style={{ color: "var(--color-primary)" }}
+              style={{ color: "#e8dcc8" }}
             >
               <line x1="7" y1="0" x2="7" y2="20" />
               <polyline points="1,14 7,20 13,14" />
