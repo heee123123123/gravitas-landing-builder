@@ -37,7 +37,7 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-16 py-[19px] md:px-32 md:py-6 transition-opacity duration-700 ease-out ${
+        className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-14 py-4 md:px-28 md:py-5 transition-opacity duration-700 ease-out ${
           hidden && !open ? "opacity-0 pointer-events-none" : "opacity-100"
         }`}
         style={{ backgroundColor: "#f1eee5" }}
