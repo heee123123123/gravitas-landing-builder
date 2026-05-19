@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const ITEMS = [
-  { label: "About", href: "#about" },
+  { label: "The Firm", href: "#about" },
   { label: "Services", href: "#services" },
   { label: "Contact", href: "#contact" },
 ];
