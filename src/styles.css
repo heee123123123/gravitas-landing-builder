@@ -23,17 +23,17 @@ html { scroll-behavior: smooth; }
 }
 
 :root {
-  --background: oklch(0.197 0.024 252);        /* #0b131e */
-  --foreground: oklch(0.946 0.013 85);         /* #f1eee5 */
-  --primary: oklch(0.886 0.034 82);            /* #e8dcc8 champagne accent */
-  --primary-foreground: oklch(0.197 0.024 252);
-  --secondary: oklch(0.946 0.013 85);
-  --muted: oklch(0.27 0.02 252);
-  --muted-foreground: oklch(0.715 0.003 90);   /* #adaca9 */
-  --accent: oklch(0.886 0.034 82);             /* #e8dcc8 */
+  --background: oklch(0.946 0.013 85);         /* #f1eee5 cream */
+  --foreground: oklch(0.197 0.024 252);        /* #0b131e navy */
+  --primary: oklch(0.197 0.024 252);           /* navy for primary text/CTAs on cream */
+  --primary-foreground: oklch(0.946 0.013 85);
+  --secondary: oklch(0.197 0.024 252);
+  --muted: oklch(0.886 0.034 82);
+  --muted-foreground: oklch(0.38 0.018 250);   /* muted navy */
+  --accent: oklch(0.78 0.04 82);               /* champagne accent */
   --link: oklch(0.34 0.014 240);               /* #333b42 */
-  --border: oklch(0.886 0.034 82 / 22%);
-  --ring: oklch(0.886 0.034 82 / 50%);
+  --border: oklch(0.197 0.024 252 / 22%);
+  --ring: oklch(0.197 0.024 252 / 50%);
   --radius: 0;
 }
 
