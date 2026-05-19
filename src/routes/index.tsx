@@ -28,27 +28,55 @@ function Index() {
       <Header />
 
       <main className="relative z-10">
-        {/* HERO */}
-        <section className="relative h-[100svh] w-full overflow-hidden">
-          <img
-            src={heroImg}
-            alt=""
-            width={1920}
-            height={1280}
-            className="absolute inset-0 h-full w-full object-cover opacity-55"
-          />
-          <div
-            aria-hidden
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(180deg, var(--color-background) 0%, transparent 22%, transparent 60%, var(--color-background) 100%)",
-            }}
-          />
+        {/* HERO — split screen */}
+        <section className="relative h-[66svh] w-full overflow-hidden">
+          <div className="grid h-full w-full grid-cols-1 md:grid-cols-2">
+            {/* Left — image */}
+            <div className="relative h-full w-full overflow-hidden">
+              <img
+                src={heroImg}
+                alt=""
+                width={1280}
+                height={1600}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(180deg, color-mix(in oklab, var(--color-background) 35%, transparent), color-mix(in oklab, var(--color-background) 45%, transparent))",
+                }}
+              />
+            </div>
+
+            {/* Right — text */}
+            <div className="relative flex h-full w-full items-center px-10 py-16 md:px-20 md:py-24">
+              <Reveal>
+                <p className="tracked-caps text-xs text-primary md:text-sm">
+                  Management Consultant
+                </p>
+                <p className="tracked-caps mt-5 text-[10px] text-muted-foreground md:text-xs">
+                  By Appointment Only
+                </p>
+
+                <div className="mt-12 h-px w-24 bg-border" />
+
+                <div className="mt-12">
+                  <a
+                    href="#contact"
+                    className="group inline-flex items-center gap-4 border border-primary/50 px-8 py-4 text-xs tracking-[0.28em] text-primary uppercase transition-colors duration-500 hover:bg-primary hover:text-primary-foreground"
+                  >
+                    Request a Consultation
+                  </a>
+                </div>
+              </Reveal>
+            </div>
+          </div>
 
           {/* Scroll indicator — arrow only */}
           <div
-            className={`absolute inset-x-0 bottom-10 z-10 flex justify-center transition-opacity duration-300 ${scrolled ? "opacity-0" : "opacity-100"}`}
+            className={`absolute inset-x-0 bottom-8 z-10 flex justify-center transition-opacity duration-300 ${scrolled ? "opacity-0" : "opacity-100"}`}
           >
             <svg
               className="arrow-pulse"
@@ -66,28 +94,7 @@ function Index() {
           </div>
         </section>
 
-        {/* INTRO HEADLINE + CTA */}
-        <section className="mx-auto w-full max-w-[1600px] px-8 pt-28 pb-32 text-center md:px-20 md:pt-40 md:pb-44">
-          <Reveal>
-            <p className="tracked-caps text-xs text-primary md:text-sm">
-              Management Consultant
-            </p>
-            <p className="tracked-caps mt-5 text-[10px] text-muted-foreground md:text-xs">
-              By Appointment Only
-            </p>
-
-            <div className="mx-auto mt-14 h-px w-24 bg-border" />
-
-            <div className="mt-14">
-              <a
-                href="#contact"
-                className="group inline-flex items-center gap-4 border border-primary/50 px-8 py-4 text-xs tracking-[0.28em] text-primary uppercase transition-colors duration-500 hover:bg-primary hover:text-primary-foreground"
-              >
-                Request a Consultation
-              </a>
-            </div>
-          </Reveal>
-        </section>
+        {/* INTRO HEADLINE + CTA removed — merged into hero right column */}
 
         <div className="mx-auto w-full max-w-[1600px] px-8 md:px-20">
           <div className="hairline" />

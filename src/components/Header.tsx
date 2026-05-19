@@ -37,13 +37,13 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-6 md:px-12 md:py-8 transition-opacity duration-700 ease-out ${
+        className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-10 py-8 md:px-20 md:py-10 transition-opacity duration-700 ease-out ${
           hidden && !open ? "opacity-0 pointer-events-none" : "opacity-100"
         }`}
       >
         <a
           href="#top"
-          className="font-serif text-xl tracking-wide text-foreground md:text-2xl"
+          className="font-serif text-2xl tracking-wide text-foreground md:text-3xl"
         >
           D.C. Norman
         </a>
@@ -52,7 +52,7 @@ export default function Header() {
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((o) => !o)}
-          className="relative z-[60] h-8 w-6"
+          className="relative z-[60] h-10 w-7"
         >
           <span
             className="absolute left-0 block h-px w-full bg-primary transition-all duration-500 ease-out"
