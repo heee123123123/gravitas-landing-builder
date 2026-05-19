@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import heroImg from "@/assets/hero.jpg";
 import CrosshairCursor from "@/components/CrosshairCursor";
 import Header from "@/components/Header";
@@ -10,14 +9,6 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
     <div id="top" className="relative min-h-screen">
       <CrosshairCursor />
@@ -42,13 +33,8 @@ function Index() {
             }}
           />
 
-          {/* Scroll indicator */}
-          <div
-            className={`absolute inset-x-0 bottom-10 z-10 flex flex-col items-center gap-3 transition-opacity duration-700 ${
-              scrolled ? "opacity-0" : "opacity-100"
-            }`}
-          >
-            <span className="tracked-caps text-[10px] text-muted-foreground">Scroll</span>
+          {/* Scroll indicator — arrow only */}
+          <div className="absolute inset-x-0 bottom-10 z-10 flex justify-center">
             <svg
               className="arrow-pulse"
               width="14"
@@ -66,7 +52,7 @@ function Index() {
         </section>
 
         {/* INTRO HEADLINE + CTA */}
-        <section className="mx-auto max-w-5xl px-6 pt-28 pb-32 text-center md:px-12 md:pt-40 md:pb-44">
+        <section className="mx-auto w-full max-w-[1600px] px-8 pt-28 pb-32 text-center md:px-20 md:pt-40 md:pb-44">
           <Reveal>
             <p className="tracked-caps text-xs text-primary md:text-sm">
               Management Consultant
@@ -88,12 +74,12 @@ function Index() {
           </Reveal>
         </section>
 
-        <div className="mx-auto max-w-6xl px-6 md:px-12">
+        <div className="mx-auto w-full max-w-[1600px] px-8 md:px-20">
           <div className="hairline" />
         </div>
 
         {/* ABOUT */}
-        <section id="about" className="mx-auto max-w-6xl px-6 py-28 md:px-12 md:py-40">
+        <section id="about" className="mx-auto w-full max-w-[1600px] px-8 py-28 md:px-20 md:py-40">
           <div className="grid grid-cols-12 gap-8">
             <Reveal className="col-span-12 md:col-span-3">
               <p className="tracked-caps text-[10px] text-muted-foreground">I — Practice</p>
@@ -108,17 +94,17 @@ function Index() {
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl px-6 md:px-12">
+        <div className="mx-auto w-full max-w-[1600px] px-8 md:px-20">
           <div className="hairline" />
         </div>
 
         {/* SERVICES */}
-        <section id="services" className="mx-auto max-w-6xl px-6 py-28 md:px-12 md:py-40">
+        <section id="services" className="mx-auto w-full max-w-[1600px] px-8 py-28 md:px-20 md:py-40">
           <Reveal className="mb-20">
             <p className="tracked-caps text-[10px] text-muted-foreground">II — Areas of Focus</p>
           </Reveal>
 
-          <div className="grid grid-cols-1 gap-16 md:grid-cols-3 md:gap-12">
+          <div className="grid grid-cols-1 gap-16 md:grid-cols-3 md:gap-16">
             {[
               {
                 num: "i.",
@@ -137,22 +123,31 @@ function Index() {
               },
             ].map((s, i) => (
               <Reveal key={s.title} delay={i * 120}>
-                <div className="border-t border-border pt-8">
+                <div className="relative pt-8">
+                  <div
+                    className="absolute inset-x-0 top-0 h-px bg-border"
+                    style={{
+                      WebkitMaskImage:
+                        "linear-gradient(to right, transparent 0%, black 35%, black 65%, transparent 100%)",
+                      maskImage:
+                        "linear-gradient(to right, transparent 0%, black 35%, black 65%, transparent 100%)",
+                    }}
+                  />
                   <p className="tracked-caps text-[10px] text-muted-foreground">{s.num}</p>
                   <h3 className="mt-6 font-serif text-3xl text-primary">{s.title}</h3>
-                  <p className="mt-6 text-sm leading-relaxed text-foreground/80">{s.body}</p>
+                  <p className="mt-6 text-sm leading-relaxed text-foreground/85">{s.body}</p>
                 </div>
               </Reveal>
             ))}
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl px-6 md:px-12">
+        <div className="mx-auto w-full max-w-[1600px] px-8 md:px-20">
           <div className="hairline" />
         </div>
 
         {/* CONTACT */}
-        <section id="contact" className="mx-auto max-w-6xl px-6 py-32 text-center md:px-12 md:py-48">
+        <section id="contact" className="mx-auto w-full max-w-[1600px] px-8 py-32 text-center md:px-20 md:py-48">
           <Reveal>
             <p className="tracked-caps text-[10px] text-muted-foreground">III — Correspondence</p>
             <a
@@ -165,7 +160,16 @@ function Index() {
         </section>
 
         {/* FOOTER */}
-        <footer className="border-t border-border py-12 text-center">
+        <footer className="relative py-12 text-center">
+          <div
+            className="absolute inset-x-0 top-0 mx-auto h-px max-w-[1600px] bg-border"
+            style={{
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent 0%, black 35%, black 65%, transparent 100%)",
+              maskImage:
+                "linear-gradient(to right, transparent 0%, black 35%, black 65%, transparent 100%)",
+            }}
+          />
           <p className="font-serif text-sm tracking-wide text-muted-foreground">D.C. Norman</p>
         </footer>
       </main>
