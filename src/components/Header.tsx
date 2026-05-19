@@ -40,10 +40,12 @@ export default function Header() {
         className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-10 py-8 md:px-20 md:py-10 transition-opacity duration-700 ease-out ${
           hidden && !open ? "opacity-0 pointer-events-none" : "opacity-100"
         }`}
+        style={{ backgroundColor: "#f1eee5" }}
       >
         <a
           href="#top"
-          className="font-serif text-2xl tracking-wide text-foreground md:text-3xl"
+          className="font-serif text-2xl tracking-wide md:text-3xl"
+          style={{ color: "#0b131e" }}
         >
           D.C. Norman
         </a>
@@ -55,21 +57,23 @@ export default function Header() {
           className="relative z-[60] h-10 w-7"
         >
           <span
-            className="absolute left-0 block h-px w-full bg-primary transition-all duration-500 ease-out"
+            className="absolute left-0 block h-px w-full transition-all duration-500 ease-out"
             style={{
               top: open ? "50%" : "25%",
               transform: open ? "translateY(-50%) rotate(45deg)" : "none",
+              backgroundColor: open ? "var(--color-primary)" : "#0b131e",
             }}
           />
           <span
-            className="absolute left-0 top-1/2 block h-px w-full -translate-y-1/2 bg-primary transition-opacity duration-300"
-            style={{ opacity: open ? 0 : 1 }}
+            className="absolute left-0 top-1/2 block h-px w-full -translate-y-1/2 transition-opacity duration-300"
+            style={{ opacity: open ? 0 : 1, backgroundColor: "#0b131e" }}
           />
           <span
-            className="absolute left-0 block h-px w-full bg-primary transition-all duration-500 ease-out"
+            className="absolute left-0 block h-px w-full transition-all duration-500 ease-out"
             style={{
               top: open ? "50%" : "75%",
               transform: open ? "translateY(-50%) rotate(-45deg)" : "none",
+              backgroundColor: open ? "var(--color-primary)" : "#0b131e",
             }}
           />
         </button>
