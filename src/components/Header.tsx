@@ -47,7 +47,7 @@ export default function Header() {
           className="font-serif text-2xl tracking-wide uppercase md:text-3xl"
           style={{ color: "#0b131e" }}
         >
-          <span style={{ wordSpacing: "-0.25em" }}>D. C.</span><span style={{ marginLeft: "0.2em" }}>NORMAN</span>
+          <span style={{ wordSpacing: "-0.4em" }}>D. C.</span><span style={{ marginLeft: "0.05em" }}>NORMAN</span>
         </a>
 
         <button
