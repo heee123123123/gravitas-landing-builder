@@ -28,29 +28,27 @@ function Index() {
       <Header />
 
       <main className="relative z-10">
-        {/* HERO — split screen */}
-        <section className="relative h-[66svh] w-full overflow-hidden">
-          <div className="grid h-full w-full grid-cols-1 md:grid-cols-2">
-            {/* Left — image */}
-            <div className="relative h-full w-full overflow-hidden">
-              <img
-                src={heroImg}
-                alt=""
-                width={1280}
-                height={1600}
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-              <div
-                aria-hidden
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(180deg, color-mix(in oklab, var(--color-background) 35%, transparent), color-mix(in oklab, var(--color-background) 45%, transparent))",
-                }}
-              />
-            </div>
+        {/* HERO — full bleed image with overlaid text */}
+        <section className="relative h-screen w-full overflow-hidden">
+          <img
+            src={heroImg}
+            alt=""
+            width={1920}
+            height={1280}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          {/* Subtle dark gradient behind text only (right side) */}
+          <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to left, color-mix(in oklab, var(--color-background) 70%, transparent) 0%, color-mix(in oklab, var(--color-background) 40%, transparent) 35%, transparent 65%)",
+            }}
+          />
 
-            {/* Right — text */}
+          <div className="relative grid h-full w-full grid-cols-1 md:grid-cols-2">
+            <div aria-hidden />
             <div className="relative flex h-full w-full items-center px-10 py-16 md:px-20 md:py-24">
               <Reveal>
                 <p className="tracked-caps text-xs text-primary md:text-sm">
@@ -73,6 +71,7 @@ function Index() {
               </Reveal>
             </div>
           </div>
+
 
           {/* Scroll indicator — arrow only */}
           <div
