@@ -72,7 +72,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "D.C. Norman — Management Consultant" },
+      { title: "D.C. Norman" },
       { name: "description", content: "D.C. Norman. Management consultant advising organizations at the intersection of strategy and execution. By appointment only." },
       { property: "og:title", content: "D.C. Norman — Management Consultant" },
       { property: "og:description", content: "Advising organizations at the intersection of strategy and execution. By appointment only." },
