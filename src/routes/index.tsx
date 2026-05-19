@@ -29,7 +29,7 @@ function Index() {
 
       <main className="relative z-10">
         {/* HERO — full bleed image with overlaid text */}
-        <section className="relative h-screen w-full overflow-hidden">
+        <section className="relative h-[92vh] w-full overflow-hidden">
           <img
             src={heroImg}
             alt=""
@@ -43,7 +43,7 @@ function Index() {
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(to left, color-mix(in oklab, var(--color-background) 70%, transparent) 0%, color-mix(in oklab, var(--color-background) 40%, transparent) 35%, transparent 65%)",
+                "linear-gradient(to left, rgba(11,19,30,0.7) 0%, rgba(11,19,30,0.4) 35%, transparent 65%)",
             }}
           />
 
@@ -51,19 +51,23 @@ function Index() {
             <div aria-hidden />
             <div className="relative flex h-full w-full items-center px-10 py-16 md:px-20 md:py-24">
               <Reveal>
-                <p className="tracked-caps text-xs text-primary md:text-sm">
+                <p className="tracked-caps text-xs md:text-sm" style={{ color: "#e8dcc8" }}>
                   Management Consultant
                 </p>
-                <p className="tracked-caps mt-5 text-[10px] text-muted-foreground md:text-xs">
+                <p className="tracked-caps mt-5 text-[10px] md:text-xs" style={{ color: "#c4ad7a" }}>
                   By Appointment Only
                 </p>
 
-                <div className="mt-12 h-px w-24 bg-border" />
+                <div className="mt-12 h-px w-24" style={{ backgroundColor: "rgba(232,220,200,0.4)" }} />
 
                 <div className="mt-12">
                   <a
                     href="#contact"
-                    className="group inline-flex items-center gap-4 border border-primary/50 px-8 py-4 text-xs tracking-[0.28em] text-primary uppercase transition-colors duration-500 hover:bg-primary hover:text-primary-foreground"
+                    className="group inline-flex items-center gap-4 px-8 py-4 text-xs tracking-[0.28em] uppercase transition-colors duration-500"
+                    style={{
+                      border: "1px solid rgba(232,220,200,0.5)",
+                      color: "#e8dcc8",
+                    }}
                   >
                     Request a Consultation
                   </a>
@@ -71,6 +75,7 @@ function Index() {
               </Reveal>
             </div>
           </div>
+
 
 
           {/* Scroll indicator — arrow only */}
