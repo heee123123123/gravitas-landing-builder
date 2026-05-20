@@ -37,46 +37,18 @@ function Index() {
             height={1280}
             className="absolute inset-0 h-full w-full object-cover"
           />
-          {/* Subtle dark gradient behind text only (right side) */}
-          <div
-            aria-hidden
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to left, rgba(11,19,30,0.7) 0%, rgba(11,19,30,0.4) 35%, transparent 65%)",
-            }}
-          />
 
-          <div className="relative grid h-full w-full grid-cols-1 md:grid-cols-2">
-            <div aria-hidden />
-            <div className="relative flex h-full w-full items-center px-10 py-16 md:px-20 md:py-24">
-              <Reveal>
-                <p className="tracked-caps text-xs md:text-sm" style={{ color: "#e8dcc8" }}>
-                  Management Consultant
-                </p>
-                <p className="tracked-caps mt-5 text-[10px] md:text-xs" style={{ color: "#c4ad7a" }}>
-                  By Appointment Only
-                </p>
-
-                <div className="mt-12 h-px w-24" style={{ backgroundColor: "rgba(232,220,200,0.4)" }} />
-
-                <div className="mt-12">
-                  <a
-                    href="#contact"
-                    className="group inline-flex items-center gap-4 px-8 py-4 text-xs tracking-[0.28em] uppercase transition-colors duration-500"
-                    style={{
-                      border: "1px solid rgba(232,220,200,0.5)",
-                      color: "#e8dcc8",
-                    }}
-                  >
-                    Request a Consultation
-                  </a>
-                </div>
-              </Reveal>
-            </div>
+          {/* Hero tagline — aligned with header logo "D", anchored to bottom */}
+          <div className="absolute bottom-16 left-[92px] md:bottom-24 md:left-[184px] z-10">
+            <Reveal>
+              <p
+                className="tracked-caps text-xs md:text-sm"
+                style={{ color: "#e8dcc8" }}
+              >
+                Perception backed by substance
+              </p>
+            </Reveal>
           </div>
-
-
 
           {/* Scroll indicator — arrow only */}
           <div
