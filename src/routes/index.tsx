@@ -42,7 +42,7 @@ function Index() {
           <div className="absolute bottom-16 left-[92px] md:bottom-24 md:left-[184px] z-10">
             <Reveal>
               <p
-                className="font-serif leading-[1.15] text-3xl md:text-5xl"
+                className="font-serif leading-[1.15] text-[2.8125rem] md:text-[4.5rem]"
                 style={{ color: "#e8dcc8" }}
               >
                 Refining corporate<br />presence for global markets
