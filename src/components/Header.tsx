@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 const ITEMS = [
   { label: "The Firm", href: "#about" },
@@ -8,30 +8,11 @@ const ITEMS = [
 ];
 
 export default function Header() {
-  const [hidden, setHidden] = useState(false);
-  const lastY = useRef(0);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      if (y < 40) {
-        setHidden(false);
-      } else if (y > lastY.current + 4) {
-        setHidden(true);
-      } else if (y < lastY.current - 4) {
-        setHidden(false);
-      }
-      lastY.current = y;
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const [open, setOpen] = useState(false);
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-[92px] py-[14px] md:px-[184px] md:py-[17px] transition-opacity duration-700 ease-out ${
-        hidden ? "opacity-0 pointer-events-none" : "opacity-100"
-      }`}
+      className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-[92px] py-[14px] md:px-[184px] md:py-[17px]"
       style={{ backgroundColor: "#f1eee5" }}
     >
       <a
@@ -53,6 +34,29 @@ export default function Header() {
             {item.label}
           </a>
         ))}
+
+        <button
+          type="button"
+          aria-label="Toggle menu"
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+          className="relative ml-2 h-5 w-6 focus:outline-none"
+        >
+          <span
+            className="absolute left-0 right-0 top-1.5 block h-px origin-center transition-transform duration-300 ease-out"
+            style={{
+              backgroundColor: "#0b131e",
+              transform: open ? "translateY(4px) rotate(-45deg)" : "none",
+            }}
+          />
+          <span
+            className="absolute left-0 right-0 top-[14px] block h-px origin-center transition-transform duration-300 ease-out"
+            style={{
+              backgroundColor: "#0b131e",
+              transform: open ? "translateY(-4px) rotate(45deg)" : "none",
+            }}
+          />
+        </button>
       </nav>
     </header>
   );
