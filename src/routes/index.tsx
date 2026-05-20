@@ -119,7 +119,6 @@ function Index() {
                 title: "Principal Investment",
                 body: "Where conviction exists, D.C. Norman takes a stake. Fees structured around outcomes — not hours.",
               },
-              },
             ].map((s, i) => (
               <Reveal key={s.title} delay={i * 120}>
                 <div className="relative pt-8">
