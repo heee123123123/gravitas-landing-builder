@@ -80,15 +80,12 @@ function Index() {
         <section id="about" className="mx-auto w-full max-w-[1600px] px-8 py-28 md:px-20 md:py-40">
           <div className="grid grid-cols-12 gap-8">
             <Reveal className="col-span-12 md:col-span-3">
-              <p className="tracked-caps text-[10px] text-muted-foreground">I — Practice</p>
+              <p className="tracked-caps text-[10px] text-muted-foreground">I — The Firm</p>
             </Reveal>
             <Reveal className="col-span-12 md:col-span-8 md:col-start-5" delay={120}>
               <div>
                 <p className="font-serif text-2xl leading-[1.45] text-foreground md:text-4xl md:leading-[1.35]">
-                  D.C. Norman advises a select group of organisations at the intersection of strategy, capital and leadership. Operating across Europe and North America, the firm brings decades of experience to its most complex engagements.
-                </p>
-                <p className="mt-8 text-sm leading-relaxed text-muted-foreground">
-                  D.C. Norman maintains a deliberately small client roster, ensuring each engagement receives the firm's full counsel.
+                  Most advisory relationships are transactional by design. Ours are not. D.C. Norman enters few engagements precisely because it commits fully to each one. We measure our involvement not in hours or deliverables, but in the trajectory of the organisations we work with. That alignment is not incidental — it is the foundation of how we operate.
                 </p>
               </div>
             </Reveal>
