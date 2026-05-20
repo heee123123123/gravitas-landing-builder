@@ -107,17 +107,18 @@ function Index() {
               {
                 num: "i.",
                 title: "Strategy",
-                body: "Long-range positioning. Capital allocation. Counsel to boards and principals on matters of consequence.",
+                body: "Long-range positioning, capital allocation and board-level counsel — on matters where the outcome is consequential.",
               },
               {
                 num: "ii.",
-                title: "Operations",
-                body: "Quiet reorganization. Margin recovery. Senior leadership transitions handled with discretion.",
+                title: "Execution",
+                body: "Sound strategy is only as valuable as its implementation. We work alongside management to refine, adapt and carry it through.",
               },
               {
                 num: "iii.",
-                title: "Advisory",
-                body: "A standing arrangement. Independent perspective held in reserve, drawn upon as circumstances require.",
+                title: "Principal Investment",
+                body: "Where conviction exists, D.C. Norman takes a stake. Fees structured around outcomes — not hours.",
+              },
               },
             ].map((s, i) => (
               <Reveal key={s.title} delay={i * 120}>
