@@ -37,46 +37,18 @@ function Index() {
             height={1280}
             className="absolute inset-0 h-full w-full object-cover"
           />
-          {/* Subtle dark gradient behind text only (right side) */}
-          <div
-            aria-hidden
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to left, rgba(11,19,30,0.7) 0%, rgba(11,19,30,0.4) 35%, transparent 65%)",
-            }}
-          />
 
-          <div className="relative grid h-full w-full grid-cols-1 md:grid-cols-2">
-            <div aria-hidden />
-            <div className="relative flex h-full w-full items-center px-10 py-16 md:px-20 md:py-24">
-              <Reveal>
-                <p className="tracked-caps text-xs md:text-sm" style={{ color: "#e8dcc8" }}>
-                  Management Consultant
-                </p>
-                <p className="tracked-caps mt-5 text-[10px] md:text-xs" style={{ color: "#c4ad7a" }}>
-                  By Appointment Only
-                </p>
-
-                <div className="mt-12 h-px w-24" style={{ backgroundColor: "rgba(232,220,200,0.4)" }} />
-
-                <div className="mt-12">
-                  <a
-                    href="#contact"
-                    className="group inline-flex items-center gap-4 px-8 py-4 text-xs tracking-[0.28em] uppercase transition-colors duration-500"
-                    style={{
-                      border: "1px solid rgba(232,220,200,0.5)",
-                      color: "#e8dcc8",
-                    }}
-                  >
-                    Request a Consultation
-                  </a>
-                </div>
-              </Reveal>
-            </div>
+          {/* Hero tagline — aligned with header logo "D", anchored to bottom */}
+          <div className="absolute bottom-16 left-[92px] md:bottom-24 md:left-[184px] z-10">
+            <Reveal>
+              <p
+                className="tracked-caps text-xs md:text-sm"
+                style={{ color: "#e8dcc8" }}
+              >
+                Perception backed by substance
+              </p>
+            </Reveal>
           </div>
-
-
 
           {/* Scroll indicator — arrow only */}
           <div
@@ -108,15 +80,12 @@ function Index() {
         <section id="about" className="mx-auto w-full max-w-[1600px] px-8 py-28 md:px-20 md:py-40">
           <div className="grid grid-cols-12 gap-8">
             <Reveal className="col-span-12 md:col-span-3">
-              <p className="tracked-caps text-[10px] text-muted-foreground">I — Practice</p>
+              <p className="tracked-caps text-[10px] text-muted-foreground">I — The Firm</p>
             </Reveal>
             <Reveal className="col-span-12 md:col-span-8 md:col-start-5" delay={120}>
               <div>
                 <p className="font-serif text-2xl leading-[1.45] text-foreground md:text-4xl md:leading-[1.35]">
-                  D.C. Norman advises a select group of organisations at the intersection of strategy, capital and leadership. Operating across Europe and North America, the firm brings decades of experience to its most complex engagements.
-                </p>
-                <p className="mt-8 text-sm leading-relaxed text-muted-foreground">
-                  D.C. Norman maintains a deliberately small client roster, ensuring each engagement receives the firm's full counsel.
+                  Most advisory relationships are transactional by design. Ours are not. D.C. Norman enters few engagements precisely because it commits fully to each one. We measure our involvement not in hours or deliverables, but in the trajectory of the organisations we work with. That alignment is not incidental — it is the foundation of how we operate.
                 </p>
               </div>
             </Reveal>
@@ -138,17 +107,17 @@ function Index() {
               {
                 num: "i.",
                 title: "Strategy",
-                body: "Long-range positioning. Capital allocation. Counsel to boards and principals on matters of consequence.",
+                body: "Long-range positioning, capital allocation and board-level counsel — on matters where the outcome is consequential.",
               },
               {
                 num: "ii.",
-                title: "Operations",
-                body: "Quiet reorganization. Margin recovery. Senior leadership transitions handled with discretion.",
+                title: "Execution",
+                body: "Sound strategy is only as valuable as its implementation. We work alongside management to refine, adapt and carry it through.",
               },
               {
                 num: "iii.",
-                title: "Advisory",
-                body: "A standing arrangement. Independent perspective held in reserve, drawn upon as circumstances require.",
+                title: "Principal Investment",
+                body: "Where conviction exists, D.C. Norman takes a stake. Fees structured around outcomes — not hours.",
               },
             ].map((s, i) => (
               <Reveal key={s.title} delay={i * 120}>
