@@ -42,10 +42,10 @@ function Index() {
           <div className="absolute bottom-16 left-[92px] md:bottom-24 md:left-[184px] z-10">
             <Reveal>
               <p
-                className="tracked-caps text-xs md:text-sm"
+                className="font-serif leading-[1.15] text-3xl md:text-5xl"
                 style={{ color: "#e8dcc8" }}
               >
-                Perception backed by substance
+                Refining corporate<br />presence for global markets
               </p>
             </Reveal>
           </div>
