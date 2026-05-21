@@ -41,13 +41,24 @@ function Index() {
           {/* Hero tagline — aligned with header logo "D", anchored to bottom */}
           <div className="absolute bottom-16 left-[92px] md:bottom-24 md:left-[184px] z-10">
             <Reveal>
-              <p
-                className="font-serif leading-[1.15] text-[2.8125rem] md:text-[4.5rem]"
-                style={{ color: "#e8dcc8" }}
-              >
-                Refining corporate<br />presence for global markets
-              </p>
+              <div className="font-serif leading-[0.95]" style={{ color: "#e8dcc8" }}>
+                <p className="text-[2.8125rem] md:text-[4.5rem]">Refining perception</p>
+                <p className="text-[4.35rem] md:text-[6.95rem]">for scale</p>
+              </div>
             </Reveal>
+          </div>
+
+          {/* Decorative guilloché pattern — overlaps bottom-right edge */}
+          <div className="pointer-events-none absolute -bottom-10 right-0 z-20 w-[42%] max-w-[680px] opacity-90 md:-bottom-14">
+            <svg viewBox="0 0 600 160" className="h-auto w-full" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <pattern id="guilloche" x="0" y="0" width="24" height="40" patternUnits="userSpaceOnUse">
+                  <path d="M0 20 Q 6 0, 12 20 T 24 20" fill="none" stroke="#c9a84c" strokeWidth="0.6" />
+                  <path d="M0 20 Q 6 40, 12 20 T 24 20" fill="none" stroke="#c9a84c" strokeWidth="0.6" />
+                </pattern>
+              </defs>
+              <rect width="600" height="160" fill="url(#guilloche)" />
+            </svg>
           </div>
 
           {/* Scroll indicator — arrow only */}
