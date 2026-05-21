@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import heroImg from "@/assets/hero.jpg";
 import CrosshairCursor from "@/components/CrosshairCursor";
 import Header from "@/components/Header";
+import IntroAnimation from "@/components/IntroAnimation";
 import Reveal from "@/components/Reveal";
 
 export const Route = createFileRoute("/")({
@@ -11,6 +12,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [scrolled, setScrolled] = useState(false);
+  const [introComplete, setIntroComplete] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -24,6 +26,13 @@ function Index() {
 
   return (
     <div id="top" className="relative min-h-screen page-fade-in">
+      {!introComplete && <IntroAnimation onComplete={() => setIntroComplete(true)} />}
+      <div
+        style={{
+          opacity: introComplete ? 1 : 0,
+          transition: "opacity 600ms ease-out",
+        }}
+      >
       <CrosshairCursor />
       <Header />
 
