@@ -183,6 +183,8 @@ function Index() {
           <p className="font-serif text-sm tracking-wide text-muted-foreground">D.C. Norman</p>
         </footer>
       </main>
+      </div>
     </div>
   );
 }
+
