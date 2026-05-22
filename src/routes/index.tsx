@@ -29,7 +29,7 @@ function Index() {
       {!introComplete && <IntroAnimation finalImage={heroImg} onComplete={() => setIntroComplete(true)} />}
       <div
         style={{
-          opacity: introComplete ? 1 : 0,
+          opacity: 1,
           transition: "opacity 600ms ease-out",
         }}
       >
