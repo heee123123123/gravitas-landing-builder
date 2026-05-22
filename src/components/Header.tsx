@@ -3,7 +3,7 @@ import { useState } from "react";
 const ITEMS = [
   { label: "The Firm", href: "#about" },
   { label: "Practice", href: "#services" },
-  { label: "Ventures", href: "#ventures" },
+  { label: "Portfolio", href: "#portfolio" },
   { label: "Enquiries", href: "#contact" },
 ];
 
