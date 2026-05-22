@@ -62,9 +62,9 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
         inset: 0,
         zIndex: 100,
         background: isFull ? "transparent" : "#f1eee5",
-        opacity: overlayHidden ? 0 : 1,
-        pointerEvents: overlayHidden ? "none" : "auto",
-        transition: "opacity 500ms ease-out, background 300ms ease-out",
+        opacity: overlayExiting ? 0 : 1,
+        pointerEvents: overlayExiting ? "none" : "auto",
+        transition: "opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), background 520ms ease-out",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -83,7 +83,9 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
           height: "100vh",
           objectFit: "cover",
           opacity: isFull ? 1 : 0,
-          transition: "opacity 350ms ease-out",
+          transform: isFull ? "scale(1)" : "scale(0.18)",
+          transition:
+            "opacity 520ms cubic-bezier(0.22, 1, 0.36, 1), transform 620ms cubic-bezier(0.22, 1, 0.36, 1)",
         }}
       />
 
@@ -112,15 +114,17 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
 
         <div
           style={{
-            width: isFull ? 0 : `${step.w}px`,
-            height: isFull ? 0 : `${step.h}px`,
+            width: isFull ? "100vw" : `${step.w}px`,
+            height: isFull ? "100vh" : `${step.h}px`,
             transition:
-              "width 250ms cubic-bezier(0.65, 0, 0.35, 1), height 250ms cubic-bezier(0.65, 0, 0.35, 1)",
-            position: "relative",
+              "width 520ms cubic-bezier(0.22, 1, 0.36, 1), height 520ms cubic-bezier(0.22, 1, 0.36, 1), opacity 380ms ease-out",
+            position: isFull ? "fixed" : "relative",
+            inset: isFull ? 0 : "auto",
             overflow: "hidden",
+            opacity: isFull ? 0 : 1,
           }}
         >
-          {CYCLE_IMAGES.map((src, i) => (
+          {allImages.map((src, i) => (
             <img
               key={src}
               src={src}
@@ -132,8 +136,10 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
-                opacity: showCycleImg && i === stepIdx - 1 ? 1 : 0,
-                transition: "opacity 200ms ease-out",
+                opacity: stepIdx > 0 && i === activeImageIndex ? 1 : 0,
+                transform: stepIdx > 0 && i === activeImageIndex ? "scale(1)" : "scale(1.035)",
+                transition:
+                  "opacity 420ms cubic-bezier(0.22, 1, 0.36, 1), transform 620ms cubic-bezier(0.22, 1, 0.36, 1)",
               }}
             />
           ))}
