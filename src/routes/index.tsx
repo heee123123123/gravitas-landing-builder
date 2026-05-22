@@ -153,6 +153,64 @@ function Index() {
           <div className="hairline" />
         </div>
 
+        {/* PORTFOLIO */}
+        <section id="portfolio" className="mx-auto w-full max-w-[1600px] px-8 py-28 md:px-20 md:py-40">
+          <Reveal className="mb-20">
+            <p className="tracked-caps text-[10px] text-muted-foreground">III — Portfolio</p>
+          </Reveal>
+
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16">
+            {[
+              {
+                num: "i.",
+                title: "Meridian Holdings",
+                sector: "Industrial — Private",
+                body: "Multi-year engagement spanning strategic repositioning, capital structure and succession. Principal stake retained.",
+              },
+              {
+                num: "ii.",
+                title: "Arden & Vale",
+                sector: "Consumer — Public",
+                body: "Board-level counsel through a contested transition and subsequent reorganisation of the operating portfolio.",
+              },
+              {
+                num: "iii.",
+                title: "Northcourt Capital",
+                sector: "Financial Services",
+                body: "Long-term advisory across regulatory strategy and institutional positioning ahead of a structured liquidity event.",
+              },
+              {
+                num: "iv.",
+                title: "Ellsworth Group",
+                sector: "Real Assets",
+                body: "Principal investment alongside operating management. Outcome-aligned terms, no advisory fees.",
+              },
+            ].map((p, i) => (
+              <Reveal key={p.title} delay={i * 120}>
+                <div className="relative pt-8">
+                  <div
+                    className="absolute inset-x-0 top-0 h-px bg-border"
+                    style={{
+                      WebkitMaskImage:
+                        "linear-gradient(to right, transparent 0%, black 35%, black 65%, transparent 100%)",
+                      maskImage:
+                        "linear-gradient(to right, transparent 0%, black 35%, black 65%, transparent 100%)",
+                    }}
+                  />
+                  <p className="tracked-caps text-[10px] text-muted-foreground">{p.num}</p>
+                  <h3 className="mt-6 font-serif text-3xl text-primary">{p.title}</h3>
+                  <p className="tracked-caps mt-3 text-[10px] text-muted-foreground">{p.sector}</p>
+                  <p className="mt-6 text-sm leading-relaxed text-foreground/85">{p.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
+        <div className="mx-auto w-full max-w-[1600px] px-8 md:px-20">
+          <div className="hairline" />
+        </div>
+
         {/* CONTACT */}
         <section id="contact" className="mx-auto w-full max-w-[1600px] px-8 py-32 text-center md:px-20 md:py-48">
           <Reveal>
