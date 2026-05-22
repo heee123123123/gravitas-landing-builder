@@ -6,61 +6,53 @@ type Props = {
 };
 
 const CYCLE_IMAGES = [
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1400&q=80",
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=1400&q=80",
-  "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1400&q=80",
-  "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?w=1400&q=80",
-  "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1400&q=80",
+  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1800&q=80",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=1800&q=80",
+  "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1800&q=80",
+  "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=1800&q=80",
+  "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1800&q=80",
+  "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1800&q=80",
 ];
 
-// Each step: image dimensions between the two text lines.
 const STEPS = [
-  { w: 0, h: 0 },        // 0: no image
-  { w: 220, h: 150 },    // 1
-  { w: 340, h: 240 },    // 2
-  { w: 460, h: 340 },    // 3
-  { w: 580, h: 430 },    // 4
-  { w: 700, h: 520 },    // 5
-  { w: 0, h: 0, full: true }, // 6: hero fills viewport, becomes the page hero
+  { w: 0, h: 0 },
+  { w: 190, h: 128 },
+  { w: 320, h: 214 },
+  { w: 470, h: 314 },
+  { w: 650, h: 434 },
+  { w: 860, h: 574 },
+  { w: 1080, h: 720 },
+  { w: 0, h: 0, full: true },
 ] as const;
 
 export default function IntroAnimation({ finalImage, onComplete }: Props) {
   const [stepIdx, setStepIdx] = useState(0);
   const [textHidden, setTextHidden] = useState(false);
-  const [overlayHidden, setOverlayHidden] = useState(false);
+  const [overlayExiting, setOverlayExiting] = useState(false);
 
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
+    const allImages = [...CYCLE_IMAGES, finalImage];
 
-    // Preload final hero
-    const pre = new Image();
-    pre.src = finalImage;
+    allImages.forEach((src) => {
+      const pre = new Image();
+      pre.src = src;
+    });
 
-    // ~2s total. Cycle 5 images quickly, then hero fills viewport,
-    // page reveals beneath while cream overlay fades — seamless because
-    // the page's hero IS this same image.
-    timers.push(setTimeout(() => setStepIdx(1), 150));
-    timers.push(setTimeout(() => setStepIdx(2), 400));
-    timers.push(setTimeout(() => setStepIdx(3), 650));
-    timers.push(setTimeout(() => setStepIdx(4), 900));
-    timers.push(setTimeout(() => setStepIdx(5), 1150));
-    timers.push(setTimeout(() => setStepIdx(6), 1400));
-    timers.push(setTimeout(() => setTextHidden(true), 1500));
-    // Hero is now fullscreen — trigger page reveal. Page hero image matches,
-    // so dropping the cream overlay reveals the live page seamlessly.
-    timers.push(
-      setTimeout(() => {
-        setOverlayHidden(true);
-        onComplete();
-      }, 1850),
-    );
+    [1000, 1280, 1560, 1840, 2120, 2400, 2680].forEach((delay, index) => {
+      timers.push(setTimeout(() => setStepIdx(index + 1), delay));
+    });
+    timers.push(setTimeout(() => setTextHidden(true), 1180));
+    timers.push(setTimeout(() => setOverlayExiting(true), 3220));
+    timers.push(setTimeout(onComplete, 3920));
 
     return () => timers.forEach(clearTimeout);
   }, [finalImage, onComplete]);
 
   const step = STEPS[stepIdx];
   const isFull = "full" in step && step.full;
-  const showCycleImg = stepIdx > 0 && !isFull;
+  const allImages = [...CYCLE_IMAGES, finalImage];
+  const activeImageIndex = Math.max(0, stepIdx - 1);
 
   return (
     <div
@@ -70,9 +62,9 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
         inset: 0,
         zIndex: 100,
         background: isFull ? "transparent" : "#f1eee5",
-        opacity: overlayHidden ? 0 : 1,
-        pointerEvents: overlayHidden ? "none" : "auto",
-        transition: "opacity 500ms ease-out, background 300ms ease-out",
+        opacity: overlayExiting ? 0 : 1,
+        pointerEvents: overlayExiting ? "none" : "auto",
+        transition: "opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), background 520ms ease-out",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -91,7 +83,9 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
           height: "100vh",
           objectFit: "cover",
           opacity: isFull ? 1 : 0,
-          transition: "opacity 350ms ease-out",
+          transform: isFull ? "scale(1)" : "scale(0.18)",
+          transition:
+            "opacity 520ms cubic-bezier(0.22, 1, 0.36, 1), transform 620ms cubic-bezier(0.22, 1, 0.36, 1)",
         }}
       />
 
@@ -120,15 +114,17 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
 
         <div
           style={{
-            width: isFull ? 0 : `${step.w}px`,
-            height: isFull ? 0 : `${step.h}px`,
+            width: isFull ? "100vw" : `${step.w}px`,
+            height: isFull ? "100vh" : `${step.h}px`,
             transition:
-              "width 250ms cubic-bezier(0.65, 0, 0.35, 1), height 250ms cubic-bezier(0.65, 0, 0.35, 1)",
-            position: "relative",
+              "width 520ms cubic-bezier(0.22, 1, 0.36, 1), height 520ms cubic-bezier(0.22, 1, 0.36, 1), opacity 380ms ease-out",
+            position: isFull ? "fixed" : "relative",
+            inset: isFull ? 0 : "auto",
             overflow: "hidden",
+            opacity: isFull ? 0 : 1,
           }}
         >
-          {CYCLE_IMAGES.map((src, i) => (
+          {allImages.map((src, i) => (
             <img
               key={src}
               src={src}
@@ -140,8 +136,10 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
-                opacity: showCycleImg && i === stepIdx - 1 ? 1 : 0,
-                transition: "opacity 200ms ease-out",
+                opacity: stepIdx > 0 && i === activeImageIndex ? 1 : 0,
+                transform: stepIdx > 0 && i === activeImageIndex ? "scale(1)" : "scale(1.035)",
+                transition:
+                  "opacity 420ms cubic-bezier(0.22, 1, 0.36, 1), transform 620ms cubic-bezier(0.22, 1, 0.36, 1)",
               }}
             />
           ))}
