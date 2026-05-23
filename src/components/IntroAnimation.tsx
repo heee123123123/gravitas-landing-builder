@@ -39,12 +39,12 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
       pre.src = src;
     });
 
-    [1000, 1280, 1560, 1840, 2120, 2400, 2680].forEach((delay, index) => {
+    [800, 1000, 1200, 1400, 1600, 1800, 2000].forEach((delay, index) => {
       timers.push(setTimeout(() => setStepIdx(index + 1), delay));
     });
-    timers.push(setTimeout(() => setTextHidden(true), 1180));
-    timers.push(setTimeout(() => setOverlayExiting(true), 3220));
-    timers.push(setTimeout(onComplete, 3920));
+    timers.push(setTimeout(() => setTextHidden(true), 900));
+    timers.push(setTimeout(() => setOverlayExiting(true), 2500));
+    timers.push(setTimeout(onComplete, 3100));
 
     return () => timers.forEach(clearTimeout);
   }, [finalImage, onComplete]);
