@@ -126,7 +126,7 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
           textAlign: "center",
         }}
       >
-        <span style={{ opacity: textHidden ? 0 : 1, transition: "opacity 350ms ease-out" }}>
+        <span style={{ opacity: textHidden ? 0 : 1, transition: "opacity 900ms cubic-bezier(0.16, 1, 0.3, 1)" }}>
           Refining corporate
         </span>
 
@@ -139,7 +139,7 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
             position: isFull ? "fixed" : "relative",
             inset: isFull ? 0 : "auto",
             overflow: "hidden",
-            opacity: isFull ? 0 : 1,
+            opacity: 1,
             background: "#f1eee5",
           }}
         >
