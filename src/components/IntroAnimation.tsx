@@ -148,7 +148,8 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
               key={src}
               src={src}
               alt=""
-              loading={i === 0 ? "eager" : "lazy"}
+              loading="eager"
+              decoding="async"
               style={{
                 position: "absolute",
                 inset: 0,
