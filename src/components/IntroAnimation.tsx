@@ -39,12 +39,12 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
       pre.src = src;
     });
 
-    [1000, 1280, 1560, 1840, 2120, 2400, 2680].forEach((delay, index) => {
+    [800, 1000, 1200, 1400, 1600, 1800, 2000].forEach((delay, index) => {
       timers.push(setTimeout(() => setStepIdx(index + 1), delay));
     });
-    timers.push(setTimeout(() => setTextHidden(true), 1180));
-    timers.push(setTimeout(() => setOverlayExiting(true), 3220));
-    timers.push(setTimeout(onComplete, 3920));
+    timers.push(setTimeout(() => setTextHidden(true), 900));
+    timers.push(setTimeout(() => setOverlayExiting(true), 2500));
+    timers.push(setTimeout(onComplete, 3100));
 
     return () => timers.forEach(clearTimeout);
   }, [finalImage, onComplete]);
@@ -117,7 +117,7 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
             width: isFull ? "100vw" : `${step.w}px`,
             height: isFull ? "100vh" : `${step.h}px`,
             transition:
-              "width 520ms cubic-bezier(0.22, 1, 0.36, 1), height 520ms cubic-bezier(0.22, 1, 0.36, 1), opacity 380ms ease-out",
+              "width 260ms cubic-bezier(0.22, 1, 0.36, 1), height 260ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease-out",
             position: isFull ? "fixed" : "relative",
             inset: isFull ? 0 : "auto",
             overflow: "hidden",
@@ -139,7 +139,7 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
                 opacity: stepIdx > 0 && i === activeImageIndex ? 1 : 0,
                 transform: stepIdx > 0 && i === activeImageIndex ? "scale(1)" : "scale(1.035)",
                 transition:
-                  "opacity 420ms cubic-bezier(0.22, 1, 0.36, 1), transform 620ms cubic-bezier(0.22, 1, 0.36, 1)",
+                  "opacity 220ms cubic-bezier(0.22, 1, 0.36, 1), transform 320ms cubic-bezier(0.22, 1, 0.36, 1)",
               }}
             />
           ))}
