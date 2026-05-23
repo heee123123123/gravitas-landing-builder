@@ -139,7 +139,7 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
                 opacity: stepIdx > 0 && i === activeImageIndex ? 1 : 0,
                 transform: stepIdx > 0 && i === activeImageIndex ? "scale(1)" : "scale(1.035)",
                 transition:
-                  "opacity 420ms cubic-bezier(0.22, 1, 0.36, 1), transform 620ms cubic-bezier(0.22, 1, 0.36, 1)",
+                  "opacity 220ms cubic-bezier(0.22, 1, 0.36, 1), transform 320ms cubic-bezier(0.22, 1, 0.36, 1)",
               }}
             />
           ))}
