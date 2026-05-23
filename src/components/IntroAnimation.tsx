@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Props = {
   finalImage: string;
@@ -25,33 +25,51 @@ const STEPS = [
   { w: 0, h: 0, full: true },
 ] as const;
 
+const IMAGE_DELAYS = [1000, 1380, 1760, 2140, 2520, 2900, 3280];
+const TEXT_FADE_DELAY = 1180;
+const OVERLAY_EXIT_DELAY = 3600;
+const COMPLETE_DELAY = 4100;
+
 export default function IntroAnimation({ finalImage, onComplete }: Props) {
   const [stepIdx, setStepIdx] = useState(0);
   const [textHidden, setTextHidden] = useState(false);
   const [overlayExiting, setOverlayExiting] = useState(false);
+  const allImages = useMemo(() => [...CYCLE_IMAGES, finalImage], [finalImage]);
 
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
-    const allImages = [...CYCLE_IMAGES, finalImage];
+    let cancelled = false;
 
-    allImages.forEach((src) => {
-      const pre = new Image();
-      pre.src = src;
-    });
+    const preloadImage = (src: string) =>
+      new Promise<void>((resolve) => {
+        const img = new Image();
+        img.decoding = "async";
+        img.loading = "eager";
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+        img.src = src;
+      });
 
-    [1000, 1550, 2100, 2650, 3200, 3750, 4300].forEach((delay, index) => {
-      timers.push(setTimeout(() => setStepIdx(index + 1), delay));
-    });
-    timers.push(setTimeout(() => setTextHidden(true), 1450));
-    timers.push(setTimeout(() => setOverlayExiting(true), 5400));
-    timers.push(setTimeout(onComplete, 6100));
+    const startAnimation = () => {
+      if (cancelled) return;
+      IMAGE_DELAYS.forEach((delay, index) => {
+        timers.push(setTimeout(() => setStepIdx(index + 1), delay));
+      });
+      timers.push(setTimeout(() => setTextHidden(true), TEXT_FADE_DELAY));
+      timers.push(setTimeout(() => setOverlayExiting(true), OVERLAY_EXIT_DELAY));
+      timers.push(setTimeout(onComplete, COMPLETE_DELAY));
+    };
 
-    return () => timers.forEach(clearTimeout);
-  }, [finalImage, onComplete]);
+    Promise.all(allImages.map(preloadImage)).then(startAnimation);
+
+    return () => {
+      cancelled = true;
+      timers.forEach(clearTimeout);
+    };
+  }, [allImages, onComplete]);
 
   const step = STEPS[stepIdx];
   const isFull = "full" in step && step.full;
-  const allImages = [...CYCLE_IMAGES, finalImage];
   const activeImageIndex = Math.max(0, stepIdx - 1);
 
   return (
@@ -61,10 +79,10 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
         position: "fixed",
         inset: 0,
         zIndex: 100,
-        background: isFull ? "transparent" : "#f1eee5",
+        background: "#f1eee5",
         opacity: overlayExiting ? 0 : 1,
         pointerEvents: overlayExiting ? "none" : "auto",
-        transition: "opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), background 520ms ease-out",
+        transition: "opacity 520ms cubic-bezier(0.22, 1, 0.36, 1)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -83,9 +101,9 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
           height: "100vh",
           objectFit: "cover",
           opacity: isFull ? 1 : 0,
-          transform: isFull ? "scale(1)" : "scale(0.18)",
+          transform: isFull ? "scale(1)" : "scale(1.08)",
           transition:
-            "opacity 520ms cubic-bezier(0.22, 1, 0.36, 1), transform 620ms cubic-bezier(0.22, 1, 0.36, 1)",
+            "opacity 460ms cubic-bezier(0.16, 1, 0.3, 1), transform 720ms cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       />
 
@@ -108,7 +126,7 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
           textAlign: "center",
         }}
       >
-        <span style={{ opacity: textHidden ? 0 : 1, transition: "opacity 350ms ease-out" }}>
+        <span style={{ opacity: textHidden ? 0 : 1, transition: "opacity 900ms cubic-bezier(0.16, 1, 0.3, 1)" }}>
           Refining corporate
         </span>
 
@@ -117,11 +135,12 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
             width: isFull ? "100vw" : `${step.w}px`,
             height: isFull ? "100vh" : `${step.h}px`,
             transition:
-              "width 480ms cubic-bezier(0.22, 1, 0.36, 1), height 480ms cubic-bezier(0.22, 1, 0.36, 1), opacity 360ms ease-out",
+              "width 520ms cubic-bezier(0.16, 1, 0.3, 1), height 520ms cubic-bezier(0.16, 1, 0.3, 1), opacity 460ms ease-out",
             position: isFull ? "fixed" : "relative",
             inset: isFull ? 0 : "auto",
             overflow: "hidden",
-            opacity: isFull ? 0 : 1,
+            opacity: 1,
+            background: "#f1eee5",
           }}
         >
           {allImages.map((src, i) => (
@@ -129,7 +148,8 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
               key={src}
               src={src}
               alt=""
-              loading={i === 0 ? "eager" : "lazy"}
+              loading="eager"
+              decoding="async"
               style={{
                 position: "absolute",
                 inset: 0,
@@ -137,15 +157,15 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
                 height: "100%",
                 objectFit: "cover",
                 opacity: stepIdx > 0 && i === activeImageIndex ? 1 : 0,
-                transform: stepIdx > 0 && i === activeImageIndex ? "scale(1)" : "scale(1.035)",
+                transform: stepIdx > 0 && i === activeImageIndex ? "scale(1.02)" : "scale(1.12)",
                 transition:
-                  "opacity 360ms cubic-bezier(0.22, 1, 0.36, 1), transform 520ms cubic-bezier(0.22, 1, 0.36, 1)",
+                  "opacity 520ms cubic-bezier(0.16, 1, 0.3, 1), transform 780ms cubic-bezier(0.16, 1, 0.3, 1)",
               }}
             />
           ))}
         </div>
 
-        <span style={{ opacity: textHidden ? 0 : 1, transition: "opacity 350ms ease-out" }}>
+        <span style={{ opacity: textHidden ? 0 : 1, transition: "opacity 900ms cubic-bezier(0.16, 1, 0.3, 1)" }}>
           presence for global markets
         </span>
       </div>
