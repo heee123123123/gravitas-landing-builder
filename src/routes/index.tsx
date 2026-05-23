@@ -25,7 +25,7 @@ function Index() {
   }, []);
 
   return (
-    <div id="top" className="relative min-h-screen page-fade-in">
+    <div id="top" className="relative min-h-screen">
       {!introComplete && <IntroAnimation finalImage={heroImg} onComplete={() => setIntroComplete(true)} />}
       <div
         style={{
