@@ -106,11 +106,11 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
           fontSize: "clamp(28px, 6.5vw, 110px)",
           lineHeight: 1.05,
           textAlign: "center",
-          opacity: textHidden ? 0 : 1,
-          transition: "opacity 350ms ease-out",
         }}
       >
-        <span>Refining corporate</span>
+        <span style={{ opacity: textHidden ? 0 : 1, transition: "opacity 350ms ease-out" }}>
+          Refining corporate
+        </span>
 
         <div
           style={{
@@ -145,7 +145,9 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
           ))}
         </div>
 
-        <span>presence for global markets</span>
+        <span style={{ opacity: textHidden ? 0 : 1, transition: "opacity 350ms ease-out" }}>
+          presence for global markets
+        </span>
       </div>
     </div>
   );
