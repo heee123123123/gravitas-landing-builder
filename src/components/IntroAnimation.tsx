@@ -117,7 +117,7 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
             width: isFull ? "100vw" : `${step.w}px`,
             height: isFull ? "100vh" : `${step.h}px`,
             transition:
-              "width 520ms cubic-bezier(0.22, 1, 0.36, 1), height 520ms cubic-bezier(0.22, 1, 0.36, 1), opacity 380ms ease-out",
+              "width 260ms cubic-bezier(0.22, 1, 0.36, 1), height 260ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease-out",
             position: isFull ? "fixed" : "relative",
             inset: isFull ? 0 : "auto",
             overflow: "hidden",
