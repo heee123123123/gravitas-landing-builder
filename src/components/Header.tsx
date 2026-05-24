@@ -1,4 +1,4 @@
-
+import { useEffect, useRef, useState } from "react";
 
 const ITEMS = [
   { label: "The Firm", href: "#about" },
@@ -8,10 +8,32 @@ const ITEMS = [
 ];
 
 export default function Header() {
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
+
+  useEffect(() => {
+    lastY.current = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      const delta = y - lastY.current;
+      if (Math.abs(delta) < 6) return;
+      if (delta > 0 && y > 80) setHidden(true);
+      else if (delta < 0) setHidden(false);
+      lastY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <header
-      className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-[92px] py-[14px] md:px-[184px] md:py-[17px]"
-      style={{ backgroundColor: "#f1eee5" }}
+      className="fixed inset-x-0 top-0 z-50 flex items-center gap-10 px-[92px] py-[14px] md:px-[184px] md:py-[17px]"
+      style={{
+        backgroundColor: "#f1eee5",
+        opacity: hidden ? 0 : 1,
+        transform: hidden ? "translateY(-100%)" : "translateY(0)",
+        transition: "opacity 360ms ease-out, transform 360ms ease-out",
+      }}
     >
       <a
         href="#top"
