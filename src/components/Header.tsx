@@ -27,7 +27,7 @@ export default function Header() {
 
   return (
     <header
-      className="fixed inset-x-0 top-0 z-50 flex items-baseline gap-10 px-[92px] py-[14px] md:px-[184px] md:py-[17px]"
+      className="fixed inset-x-0 top-0 z-50 flex items-center gap-10 px-[92px] py-[14px] md:px-[184px] md:py-[17px]"
       style={{
         backgroundColor: "#f1eee5",
         opacity: hidden ? 0 : 1,
@@ -48,7 +48,7 @@ export default function Header() {
           <a
             key={item.label}
             href={item.href}
-            className="text-[10px] md:text-xs tracking-[0.12em] uppercase transition-opacity hover:opacity-60"
+            className="text-[10px] md:text-xs tracking-[1px] transition-opacity hover:opacity-60"
             style={{ color: "#0b131e" }}
           >
             {item.label}
