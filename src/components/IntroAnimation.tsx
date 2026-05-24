@@ -25,13 +25,22 @@ const STEPS = [
   { w: 0, h: 0, full: true },
 ] as const;
 
-const IMAGE_DELAYS = [1000, 1380, 1760, 2140, 2520, 2900, 3280];
-const TEXT_FADE_DELAY = 1180;
-const OVERLAY_EXIT_DELAY = 3600;
-const COMPLETE_DELAY = 4100;
+// Image step delays — non-linear, starts faster and slows toward the end,
+// with a "pulse" on every ~3rd step (longer hold) for rhythm.
+const IMAGE_DELAYS = [700, 920, 1180, 1560, 1820, 2120, 2560];
+const TEXT_TOP = "Refining corporate";
+const TEXT_BOT = "presence for global markets";
+const CHAR_MS = 26;
+const TEXT_TOP_DONE = TEXT_TOP.length * CHAR_MS; // ~470ms
+const TEXT_BOT_START = TEXT_TOP_DONE + 60;
+const TEXT_FADE_DELAY = 1700;
+const OVERLAY_EXIT_DELAY = 3160;
+const COMPLETE_DELAY = 3660;
 
 export default function IntroAnimation({ finalImage, onComplete }: Props) {
   const [stepIdx, setStepIdx] = useState(0);
+  const [topTyped, setTopTyped] = useState(0);
+  const [botTyped, setBotTyped] = useState(0);
   const [textHidden, setTextHidden] = useState(false);
   const [overlayExiting, setOverlayExiting] = useState(false);
   const allImages = useMemo(() => [...CYCLE_IMAGES, finalImage], [finalImage]);
@@ -52,6 +61,16 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
 
     const startAnimation = () => {
       if (cancelled) return;
+
+      // Typewriter — top line
+      for (let i = 1; i <= TEXT_TOP.length; i++) {
+        timers.push(setTimeout(() => setTopTyped(i), i * CHAR_MS));
+      }
+      // Typewriter — bottom line (starts shortly after top finishes)
+      for (let i = 1; i <= TEXT_BOT.length; i++) {
+        timers.push(setTimeout(() => setBotTyped(i), TEXT_BOT_START + i * CHAR_MS));
+      }
+
       IMAGE_DELAYS.forEach((delay, index) => {
         timers.push(setTimeout(() => setStepIdx(index + 1), delay));
       });
@@ -72,6 +91,17 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
   const isFull = "full" in step && step.full;
   const activeImageIndex = Math.max(0, stepIdx - 1);
 
+  const renderTyped = (text: string, typed: number) => {
+    const visible = text.slice(0, typed);
+    const hidden = text.slice(typed);
+    return (
+      <>
+        <span>{visible}</span>
+        <span style={{ opacity: 0 }} aria-hidden="true">{hidden}</span>
+      </>
+    );
+  };
+
   return (
     <div
       aria-hidden="true"
@@ -89,8 +119,6 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
         overflow: "hidden",
       }}
     >
-      {/* Fullscreen final hero image — sits behind text, fades in at final step
-          matching the page's hero so the handoff is invisible. */}
       <img
         src={finalImage}
         alt=""
@@ -103,11 +131,10 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
           opacity: isFull ? 1 : 0,
           transform: isFull ? "scale(1)" : "scale(1.08)",
           transition:
-            "opacity 460ms cubic-bezier(0.16, 1, 0.3, 1), transform 720ms cubic-bezier(0.16, 1, 0.3, 1)",
+            "opacity 360ms cubic-bezier(0.16, 1, 0.3, 1), transform 540ms cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       />
 
-      {/* Vertical stack: text / image / text */}
       <div
         style={{
           position: "relative",
@@ -126,8 +153,8 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
           textAlign: "center",
         }}
       >
-        <span style={{ opacity: textHidden ? 0 : 1, transition: "opacity 900ms cubic-bezier(0.16, 1, 0.3, 1)" }}>
-          Refining corporate
+        <span style={{ opacity: textHidden ? 0 : 1, transition: "opacity 700ms cubic-bezier(0.16, 1, 0.3, 1)" }}>
+          {renderTyped(TEXT_TOP, topTyped)}
         </span>
 
         <div
@@ -135,7 +162,7 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
             width: `${step.w}px`,
             height: `${step.h}px`,
             transition:
-              "width 520ms cubic-bezier(0.16, 1, 0.3, 1), height 520ms cubic-bezier(0.16, 1, 0.3, 1), opacity 320ms ease-out",
+              "width 360ms cubic-bezier(0.16, 1, 0.3, 1), height 360ms cubic-bezier(0.16, 1, 0.3, 1), opacity 240ms ease-out",
             position: "relative",
             overflow: "hidden",
             opacity: isFull ? 0 : 1,
@@ -156,16 +183,16 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
                 height: "100%",
                 objectFit: "cover",
                 opacity: stepIdx > 0 && i === activeImageIndex ? 1 : 0,
-                transform: stepIdx > 0 && i === activeImageIndex ? "scale(1.02)" : "scale(1.12)",
+                transform: stepIdx > 0 && i === activeImageIndex ? "scale(1.02)" : "scale(1.08)",
                 transition:
-                  "opacity 520ms cubic-bezier(0.16, 1, 0.3, 1), transform 780ms cubic-bezier(0.16, 1, 0.3, 1)",
+                  "opacity 360ms cubic-bezier(0.16, 1, 0.3, 1), transform 540ms cubic-bezier(0.16, 1, 0.3, 1)",
               }}
             />
           ))}
         </div>
 
-        <span style={{ opacity: textHidden ? 0 : 1, transition: "opacity 900ms cubic-bezier(0.16, 1, 0.3, 1)" }}>
-          presence for global markets
+        <span style={{ opacity: textHidden ? 0 : 1, transition: "opacity 700ms cubic-bezier(0.16, 1, 0.3, 1)" }}>
+          {renderTyped(TEXT_BOT, botTyped)}
         </span>
       </div>
     </div>
