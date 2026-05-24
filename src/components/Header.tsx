@@ -48,7 +48,7 @@ export default function Header() {
           <a
             key={item.label}
             href={item.href}
-            className="text-[10px] md:text-xs tracking-[0.12em] uppercase transition-opacity hover:opacity-60"
+            className="text-[10px] md:text-xs tracking-[1px] transition-opacity hover:opacity-60"
             style={{ color: "#0b131e" }}
           >
             {item.label}
