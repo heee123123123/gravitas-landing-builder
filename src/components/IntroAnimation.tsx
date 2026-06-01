@@ -35,18 +35,21 @@ const TEXT_HOLD = 500;
 const IMAGES_START = TEXT_BOT_DONE + TEXT_HOLD;
 
 // Per-step delays (relative to IMAGES_START). Pulsing rhythm; last step = full hero expand.
-const STEP_OFFSETS = [0, 230, 470, 760, 1010, 1290, 1620, 2020];
+const STEP_OFFSETS = [0, 300, 600, 940, 1240, 1580, 1960, 2380];
 const IMAGE_DELAYS = STEP_OFFSETS.map((d) => IMAGES_START + d);
 
-const FINAL_STEP_INDEX = IMAGE_DELAYS.length - 1; // last entry = hero full
-const VIGNETTE_DELAY = IMAGE_DELAYS[FINAL_STEP_INDEX] + 720;
-const COMPLETE_DELAY = VIGNETTE_DELAY + 520;
+const FINAL_STEP_INDEX = IMAGE_DELAYS.length - 1; // last entry = hero reveal at base size
+const HERO_EXPAND_DELAY = IMAGE_DELAYS[FINAL_STEP_INDEX] + 540;
+const HERO_EXPAND_DURATION = 1100;
+const VIGNETTE_DELAY = HERO_EXPAND_DELAY + HERO_EXPAND_DURATION - 220;
+const COMPLETE_DELAY = VIGNETTE_DELAY + 460;
 
 export default function IntroAnimation({ finalImage, onComplete }: Props) {
   const [stepIdx, setStepIdx] = useState(0); // 0 = no images yet; 1..N reveal images
   const [topTyped, setTopTyped] = useState(0);
   const [botTyped, setBotTyped] = useState(0);
   const [textHidden, setTextHidden] = useState(false);
+  const [heroExpanded, setHeroExpanded] = useState(false);
   const [vignette, setVignette] = useState(false);
 
   const allImages = useMemo(() => [...CYCLE_IMAGES, finalImage], [finalImage]);
