@@ -131,8 +131,8 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
         const isFinal = i === allImages.length - 1;
         const size = IMAGE_SIZES[i] ?? IMAGE_SIZES[IMAGE_SIZES.length - 1];
 
-        const width = isFinal && revealed ? "100vw" : `${size.w}px`;
-        const height = isFinal && revealed ? "100vh" : `${size.h}px`;
+        const width = isFinal && heroExpanded ? "100vw" : `${size.w}px`;
+        const height = isFinal && heroExpanded ? "100vh" : `${size.h}px`;
 
         return (
           <img
@@ -148,12 +148,12 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
               width,
               height,
               objectFit: "cover",
-              transform: `translate(-50%, -50%) scale(${revealed ? 1 : 1.04})`,
+              transform: `translate(-50%, -50%) scale(${revealed ? 1 : 1.06})`,
               opacity: revealed ? 1 : 0,
               zIndex: 10 + i,
               transition: isFinal
-                ? "opacity 520ms cubic-bezier(0.16, 1, 0.3, 1), width 900ms cubic-bezier(0.22, 1, 0.36, 1), height 900ms cubic-bezier(0.22, 1, 0.36, 1), transform 900ms cubic-bezier(0.22, 1, 0.36, 1)"
-                : "opacity 420ms cubic-bezier(0.16, 1, 0.3, 1), transform 520ms cubic-bezier(0.16, 1, 0.3, 1)",
+                ? `opacity 720ms cubic-bezier(0.22, 1, 0.36, 1), width ${HERO_EXPAND_DURATION}ms cubic-bezier(0.65, 0, 0.35, 1), height ${HERO_EXPAND_DURATION}ms cubic-bezier(0.65, 0, 0.35, 1), transform ${HERO_EXPAND_DURATION}ms cubic-bezier(0.65, 0, 0.35, 1)`
+                : "opacity 640ms cubic-bezier(0.22, 1, 0.36, 1), transform 760ms cubic-bezier(0.22, 1, 0.36, 1)",
             }}
           />
         );
