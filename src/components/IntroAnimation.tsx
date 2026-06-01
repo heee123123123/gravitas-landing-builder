@@ -85,6 +85,7 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
         timers.push(setTimeout(() => setStepIdx(index + 1), delay));
       });
 
+      timers.push(setTimeout(() => setHeroExpanded(true), HERO_EXPAND_DELAY));
       timers.push(setTimeout(() => setVignette(true), VIGNETTE_DELAY));
       timers.push(setTimeout(onComplete, COMPLETE_DELAY));
     };
