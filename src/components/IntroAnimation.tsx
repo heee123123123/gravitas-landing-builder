@@ -35,18 +35,21 @@ const TEXT_HOLD = 500;
 const IMAGES_START = TEXT_BOT_DONE + TEXT_HOLD;
 
 // Per-step delays (relative to IMAGES_START). Pulsing rhythm; last step = full hero expand.
-const STEP_OFFSETS = [0, 230, 470, 760, 1010, 1290, 1620, 2020];
+const STEP_OFFSETS = [0, 300, 600, 940, 1240, 1580, 1960, 2380];
 const IMAGE_DELAYS = STEP_OFFSETS.map((d) => IMAGES_START + d);
 
-const FINAL_STEP_INDEX = IMAGE_DELAYS.length - 1; // last entry = hero full
-const VIGNETTE_DELAY = IMAGE_DELAYS[FINAL_STEP_INDEX] + 720;
-const COMPLETE_DELAY = VIGNETTE_DELAY + 520;
+const FINAL_STEP_INDEX = IMAGE_DELAYS.length - 1; // last entry = hero reveal at base size
+const HERO_EXPAND_DELAY = IMAGE_DELAYS[FINAL_STEP_INDEX] + 540;
+const HERO_EXPAND_DURATION = 1100;
+const VIGNETTE_DELAY = HERO_EXPAND_DELAY + HERO_EXPAND_DURATION - 220;
+const COMPLETE_DELAY = VIGNETTE_DELAY + 460;
 
 export default function IntroAnimation({ finalImage, onComplete }: Props) {
   const [stepIdx, setStepIdx] = useState(0); // 0 = no images yet; 1..N reveal images
   const [topTyped, setTopTyped] = useState(0);
   const [botTyped, setBotTyped] = useState(0);
   const [textHidden, setTextHidden] = useState(false);
+  const [heroExpanded, setHeroExpanded] = useState(false);
   const [vignette, setVignette] = useState(false);
 
   const allImages = useMemo(() => [...CYCLE_IMAGES, finalImage], [finalImage]);
@@ -82,6 +85,7 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
         timers.push(setTimeout(() => setStepIdx(index + 1), delay));
       });
 
+      timers.push(setTimeout(() => setHeroExpanded(true), HERO_EXPAND_DELAY));
       timers.push(setTimeout(() => setVignette(true), VIGNETTE_DELAY));
       timers.push(setTimeout(onComplete, COMPLETE_DELAY));
     };
@@ -127,8 +131,8 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
         const isFinal = i === allImages.length - 1;
         const size = IMAGE_SIZES[i] ?? IMAGE_SIZES[IMAGE_SIZES.length - 1];
 
-        const width = isFinal && revealed ? "100vw" : `${size.w}px`;
-        const height = isFinal && revealed ? "100vh" : `${size.h}px`;
+        const width = isFinal && heroExpanded ? "100vw" : `${size.w}px`;
+        const height = isFinal && heroExpanded ? "100vh" : `${size.h}px`;
 
         return (
           <img
@@ -144,12 +148,12 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
               width,
               height,
               objectFit: "cover",
-              transform: `translate(-50%, -50%) scale(${revealed ? 1 : 1.04})`,
+              transform: `translate(-50%, -50%) scale(${revealed ? 1 : 1.06})`,
               opacity: revealed ? 1 : 0,
               zIndex: 10 + i,
               transition: isFinal
-                ? "opacity 520ms cubic-bezier(0.16, 1, 0.3, 1), width 900ms cubic-bezier(0.22, 1, 0.36, 1), height 900ms cubic-bezier(0.22, 1, 0.36, 1), transform 900ms cubic-bezier(0.22, 1, 0.36, 1)"
-                : "opacity 420ms cubic-bezier(0.16, 1, 0.3, 1), transform 520ms cubic-bezier(0.16, 1, 0.3, 1)",
+                ? `opacity 720ms cubic-bezier(0.22, 1, 0.36, 1), width ${HERO_EXPAND_DURATION}ms cubic-bezier(0.65, 0, 0.35, 1), height ${HERO_EXPAND_DURATION}ms cubic-bezier(0.65, 0, 0.35, 1), transform ${HERO_EXPAND_DURATION}ms cubic-bezier(0.65, 0, 0.35, 1)`
+                : "opacity 640ms cubic-bezier(0.22, 1, 0.36, 1), transform 760ms cubic-bezier(0.22, 1, 0.36, 1)",
             }}
           />
         );
