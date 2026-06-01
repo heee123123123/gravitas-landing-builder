@@ -7,6 +7,11 @@ const ITEMS = [
   { label: "Enquiries", href: "#contact" },
 ];
 
+const RIGHT_ITEMS = [
+  { label: "Careers", href: "#careers" },
+  { label: "Press Release", href: "#press" },
+];
+
 export default function Header() {
   const [hidden, setHidden] = useState(false);
   const lastY = useRef(0);
@@ -27,7 +32,7 @@ export default function Header() {
 
   return (
     <header
-      className="fixed inset-x-0 top-0 z-50 flex items-center gap-10 px-[92px] py-[14px] md:px-[184px] md:py-[17px]"
+      className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-[140px] py-[14px] md:px-[240px] md:py-[17px]"
       style={{
         backgroundColor: "#f1eee5",
         opacity: hidden ? 0 : 1,
@@ -35,16 +40,32 @@ export default function Header() {
         transition: "opacity 360ms ease-out, transform 360ms ease-out",
       }}
     >
-      <a
-        href="#top"
-        className="font-serif text-2xl tracking-wide uppercase md:text-3xl"
-        style={{ color: "#0b131e" }}
-      >
-        <span style={{ wordSpacing: "-0.3em" }}>D. C.</span><span style={{ marginLeft: "0.05em" }}>NORMAN</span>
-      </a>
+      <div className="flex items-center gap-8">
+        <a
+          href="#top"
+          className="font-serif text-2xl tracking-wide uppercase md:text-3xl"
+          style={{ color: "#0b131e" }}
+        >
+          <span style={{ wordSpacing: "-0.3em" }}>D. C.</span>
+          <span style={{ marginLeft: "0.05em" }}>NORMAN</span>
+        </a>
 
-      <nav className="flex items-center gap-8 md:gap-12">
-        {ITEMS.map((item) => (
+        <nav className="flex items-center gap-5 md:gap-7" style={{ marginTop: "6px" }}>
+          {ITEMS.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              className="text-[10px] md:text-xs tracking-[1px] transition-opacity hover:opacity-60"
+              style={{ color: "#0b131e" }}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+
+      <nav className="flex items-center gap-5 md:gap-7" style={{ marginTop: "6px" }}>
+        {RIGHT_ITEMS.map((item) => (
           <a
             key={item.label}
             href={item.href}

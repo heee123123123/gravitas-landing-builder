@@ -14,35 +14,41 @@ const CYCLE_IMAGES = [
   "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1800&q=80",
 ];
 
-const STEPS = [
-  { w: 0, h: 0 },
-  { w: 190, h: 128 },
-  { w: 320, h: 214 },
-  { w: 470, h: 314 },
-  { w: 650, h: 434 },
-  { w: 860, h: 574 },
-  { w: 1080, h: 720 },
-  { w: 0, h: 0, full: true },
-] as const;
+// Per-image sizes — early ones smaller & portrait/window-like, later ones wide landscape.
+const IMAGE_SIZES: { w: number; h: number }[] = [
+  { w: 240, h: 340 }, // portrait — window
+  { w: 300, h: 420 }, // taller portrait
+  { w: 440, h: 300 }, // landscape gallery
+  { w: 360, h: 500 }, // tall portrait window
+  { w: 720, h: 440 }, // wide landscape
+  { w: 920, h: 560 }, // larger landscape
+  { w: 1100, h: 660 }, // hero pre-expand (landscape)
+];
 
-// Image step delays — non-linear, starts faster and slows toward the end,
-// with a "pulse" on every ~3rd step (longer hold) for rhythm.
-const IMAGE_DELAYS = [700, 920, 1180, 1560, 1820, 2120, 2560];
 const TEXT_TOP = "Refining corporate";
 const TEXT_BOT = "presence for global markets";
-const CHAR_MS = 26;
-const TEXT_TOP_DONE = TEXT_TOP.length * CHAR_MS; // ~470ms
-const TEXT_BOT_START = TEXT_TOP_DONE + 60;
-const TEXT_FADE_DELAY = 1700;
-const OVERLAY_EXIT_DELAY = 3160;
-const COMPLETE_DELAY = 3660;
+const CHAR_MS = 24;
+const TEXT_TOP_DONE = TEXT_TOP.length * CHAR_MS;
+const TEXT_BOT_START = TEXT_TOP_DONE + 50;
+const TEXT_BOT_DONE = TEXT_BOT_START + TEXT_BOT.length * CHAR_MS;
+const TEXT_HOLD = 500;
+const IMAGES_START = TEXT_BOT_DONE + TEXT_HOLD;
+
+// Per-step delays (relative to IMAGES_START). Pulsing rhythm; last step = full hero expand.
+const STEP_OFFSETS = [0, 230, 470, 760, 1010, 1290, 1620, 2020];
+const IMAGE_DELAYS = STEP_OFFSETS.map((d) => IMAGES_START + d);
+
+const FINAL_STEP_INDEX = IMAGE_DELAYS.length - 1; // last entry = hero full
+const VIGNETTE_DELAY = IMAGE_DELAYS[FINAL_STEP_INDEX] + 720;
+const COMPLETE_DELAY = VIGNETTE_DELAY + 520;
 
 export default function IntroAnimation({ finalImage, onComplete }: Props) {
-  const [stepIdx, setStepIdx] = useState(0);
+  const [stepIdx, setStepIdx] = useState(0); // 0 = no images yet; 1..N reveal images
   const [topTyped, setTopTyped] = useState(0);
   const [botTyped, setBotTyped] = useState(0);
   const [textHidden, setTextHidden] = useState(false);
-  const [overlayExiting, setOverlayExiting] = useState(false);
+  const [vignette, setVignette] = useState(false);
+
   const allImages = useMemo(() => [...CYCLE_IMAGES, finalImage], [finalImage]);
 
   useEffect(() => {
@@ -59,27 +65,28 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
         img.src = src;
       });
 
-    const startAnimation = () => {
+    const start = () => {
       if (cancelled) return;
 
-      // Typewriter — top line
       for (let i = 1; i <= TEXT_TOP.length; i++) {
         timers.push(setTimeout(() => setTopTyped(i), i * CHAR_MS));
       }
-      // Typewriter — bottom line (starts shortly after top finishes)
       for (let i = 1; i <= TEXT_BOT.length; i++) {
         timers.push(setTimeout(() => setBotTyped(i), TEXT_BOT_START + i * CHAR_MS));
       }
 
+      // Fade text out shortly after images begin
+      timers.push(setTimeout(() => setTextHidden(true), IMAGES_START + 120));
+
       IMAGE_DELAYS.forEach((delay, index) => {
         timers.push(setTimeout(() => setStepIdx(index + 1), delay));
       });
-      timers.push(setTimeout(() => setTextHidden(true), TEXT_FADE_DELAY));
-      timers.push(setTimeout(() => setOverlayExiting(true), OVERLAY_EXIT_DELAY));
+
+      timers.push(setTimeout(() => setVignette(true), VIGNETTE_DELAY));
       timers.push(setTimeout(onComplete, COMPLETE_DELAY));
     };
 
-    Promise.all(allImages.map(preloadImage)).then(startAnimation);
+    Promise.all(allImages.map(preloadImage)).then(start);
 
     return () => {
       cancelled = true;
@@ -87,17 +94,15 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
     };
   }, [allImages, onComplete]);
 
-  const step = STEPS[stepIdx];
-  const isFull = "full" in step && step.full;
-  const activeImageIndex = Math.max(0, stepIdx - 1);
-
   const renderTyped = (text: string, typed: number) => {
     const visible = text.slice(0, typed);
     const hidden = text.slice(typed);
     return (
       <>
         <span>{visible}</span>
-        <span style={{ opacity: 0 }} aria-hidden="true">{hidden}</span>
+        <span style={{ opacity: 0 }} aria-hidden="true">
+          {hidden}
+        </span>
       </>
     );
   };
@@ -110,35 +115,65 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
         inset: 0,
         zIndex: 100,
         background: "#f1eee5",
-        opacity: overlayExiting ? 0 : 1,
-        pointerEvents: overlayExiting ? "none" : "auto",
-        transition: "opacity 520ms cubic-bezier(0.22, 1, 0.36, 1)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         overflow: "hidden",
       }}
     >
-      <img
-        src={finalImage}
-        alt=""
+      {/* Stacked images — each fades in over the previous with higher z-index. */}
+      {allImages.map((src, i) => {
+        const revealed = stepIdx > i;
+        const isFinal = i === allImages.length - 1;
+        const size = IMAGE_SIZES[i] ?? IMAGE_SIZES[IMAGE_SIZES.length - 1];
+
+        const width = isFinal && revealed ? "100vw" : `${size.w}px`;
+        const height = isFinal && revealed ? "100vh" : `${size.h}px`;
+
+        return (
+          <img
+            key={src}
+            src={src}
+            alt=""
+            loading="eager"
+            decoding="async"
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              width,
+              height,
+              objectFit: "cover",
+              transform: `translate(-50%, -50%) scale(${revealed ? 1 : 1.04})`,
+              opacity: revealed ? 1 : 0,
+              zIndex: 10 + i,
+              transition: isFinal
+                ? "opacity 520ms cubic-bezier(0.16, 1, 0.3, 1), width 900ms cubic-bezier(0.22, 1, 0.36, 1), height 900ms cubic-bezier(0.22, 1, 0.36, 1), transform 900ms cubic-bezier(0.22, 1, 0.36, 1)"
+                : "opacity 420ms cubic-bezier(0.16, 1, 0.3, 1), transform 520ms cubic-bezier(0.16, 1, 0.3, 1)",
+            }}
+          />
+        );
+      })}
+
+      {/* Vignette on top of final hero before handing off */}
+      <div
         style={{
           position: "absolute",
           inset: 0,
-          width: "100vw",
-          height: "100vh",
-          objectFit: "cover",
-          opacity: isFull ? 1 : 0,
-          transform: isFull ? "scale(1)" : "scale(1.08)",
-          transition:
-            "opacity 360ms cubic-bezier(0.16, 1, 0.3, 1), transform 540ms cubic-bezier(0.16, 1, 0.3, 1)",
+          zIndex: 50,
+          pointerEvents: "none",
+          background:
+            "radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%)",
+          opacity: vignette ? 1 : 0,
+          transition: "opacity 480ms ease-out",
         }}
       />
 
+      {/* Text */}
       <div
         style={{
           position: "relative",
-          zIndex: 2,
+          zIndex: 60,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -151,49 +186,12 @@ export default function IntroAnimation({ finalImage, onComplete }: Props) {
           fontSize: "clamp(28px, 6.5vw, 110px)",
           lineHeight: 1.05,
           textAlign: "center",
+          opacity: textHidden ? 0 : 1,
+          transition: "opacity 600ms cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
-        <span style={{ opacity: textHidden ? 0 : 1, transition: "opacity 700ms cubic-bezier(0.16, 1, 0.3, 1)" }}>
-          {renderTyped(TEXT_TOP, topTyped)}
-        </span>
-
-        <div
-          style={{
-            width: `${step.w}px`,
-            height: `${step.h}px`,
-            transition:
-              "width 360ms cubic-bezier(0.16, 1, 0.3, 1), height 360ms cubic-bezier(0.16, 1, 0.3, 1), opacity 240ms ease-out",
-            position: "relative",
-            overflow: "hidden",
-            opacity: isFull ? 0 : 1,
-            background: "#f1eee5",
-          }}
-        >
-          {allImages.map((src, i) => (
-            <img
-              key={src}
-              src={src}
-              alt=""
-              loading="eager"
-              decoding="async"
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                opacity: stepIdx > 0 && i === activeImageIndex ? 1 : 0,
-                transform: stepIdx > 0 && i === activeImageIndex ? "scale(1.02)" : "scale(1.08)",
-                transition:
-                  "opacity 360ms cubic-bezier(0.16, 1, 0.3, 1), transform 540ms cubic-bezier(0.16, 1, 0.3, 1)",
-              }}
-            />
-          ))}
-        </div>
-
-        <span style={{ opacity: textHidden ? 0 : 1, transition: "opacity 700ms cubic-bezier(0.16, 1, 0.3, 1)" }}>
-          {renderTyped(TEXT_BOT, botTyped)}
-        </span>
+        <span>{renderTyped(TEXT_TOP, topTyped)}</span>
+        <span>{renderTyped(TEXT_BOT, botTyped)}</span>
       </div>
     </div>
   );
