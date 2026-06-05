@@ -7,10 +7,7 @@ const ITEMS = [
   { label: "Enquiries", href: "#contact" },
 ];
 
-const RIGHT_ITEMS = [
-  { label: "Careers", href: "#careers" },
-  { label: "Press Release", href: "#press" },
-];
+const RIGHT_ITEMS: { label: string; href: string }[] = [];
 
 export default function Header() {
   const [hidden, setHidden] = useState(false);
