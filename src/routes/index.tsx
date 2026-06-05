@@ -171,7 +171,7 @@ function Index() {
             <div className="hairline" />
           </div>
 
-          {/* PORTFOLIO — asymmetric stacked rows */}
+          {/* PORTFOLIO — 3 across */}
           <section id="portfolio" className="mx-auto w-full max-w-[1280px] px-8 py-28 md:px-24 md:py-40">
             <div className="grid grid-cols-12 gap-8 mb-16">
               <Reveal className="col-span-12 md:col-span-2">
@@ -179,7 +179,7 @@ function Index() {
               </Reveal>
             </div>
 
-            <div className="flex flex-col">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
               {[
                 {
                   num: "i.",
@@ -207,9 +207,9 @@ function Index() {
                 },
               ].map((p, i) => (
                 <Reveal key={p.title} delay={i * 100}>
-                  <div className="relative grid grid-cols-12 gap-8 py-12">
+                  <div className="relative flex flex-col gap-5 py-10 md:py-0">
                     <div
-                      className="absolute inset-x-0 top-0 h-px bg-border"
+                      className="absolute inset-x-0 top-0 h-px bg-border md:hidden"
                       style={{
                         WebkitMaskImage:
                           "linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%)",
@@ -217,16 +217,12 @@ function Index() {
                           "linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%)",
                       }}
                     />
-                    <p className="col-span-12 tracked-caps text-[10px] text-muted-foreground md:col-span-2">
-                      {p.num}
-                    </p>
-                    <div className="col-span-12 md:col-span-4">
+                    <p className="tracked-caps text-[10px] text-muted-foreground">{p.num}</p>
+                    <div>
                       <h3 className="font-serif text-3xl text-primary md:text-4xl">{p.title}</h3>
-                      <p className="tracked-caps mt-3 text-[10px] text-muted-foreground">
-                        {p.sector}
-                      </p>
+                      <p className="tracked-caps mt-2 text-[10px] text-muted-foreground">{p.sector}</p>
                     </div>
-                    <p className="col-span-12 text-sm leading-relaxed text-foreground/85 md:col-span-5 md:col-start-8 md:text-base">
+                    <p className="text-sm leading-relaxed text-foreground/85 md:text-base">
                       {p.body}
                     </p>
                   </div>
