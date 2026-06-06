@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import heroImg from "@/assets/hero.jpg";
-import plateII from "@/assets/plate-ii.jpg";
+import heroEstate from "@/assets/hero-estate.jpg";
 import Header from "@/components/Header";
 import IntroAnimation from "@/components/IntroAnimation";
 import Reveal from "@/components/Reveal";
@@ -29,92 +29,113 @@ function Index() {
         <Header />
 
         <main className="relative z-10">
-          {/* HERO — editorial masthead with flanking plates */}
-          <section className="relative w-full pt-40 md:pt-52">
-            <div className="mx-auto w-full max-w-[1280px] px-8 md:px-24">
-              <div className="grid grid-cols-12 gap-8">
-                {/* Left tall plate */}
-                <div className="hidden md:block md:col-span-3">
-                  <Reveal>
-                    <figure>
-                      <div className="overflow-hidden">
-                        <img
-                          src={plateII}
-                          alt="Private offices, Mayfair"
-                          className="block h-auto w-full"
-                          style={{ aspectRatio: "3 / 4", objectFit: "cover", filter: "grayscale(20%)" }}
-                        />
-                      </div>
-                      <figcaption className="tracked-caps mt-3 text-[10px] text-muted-foreground">
-                        Plate I — Offices, Mayfair
-                      </figcaption>
-                    </figure>
-                  </Reveal>
+          {/* HERO — cinematic anchor + overlaid typographic plate */}
+          <section className="relative w-full pt-32 md:pt-36">
+            <div className="mx-auto w-full max-w-[1280px] px-8 md:px-12">
+              <div className="relative">
+                {/* Wide cinematic anchor */}
+                <div
+                  className="relative w-full overflow-hidden border"
+                  style={{
+                    aspectRatio: "21 / 9",
+                    borderColor: "color-mix(in oklab, #0b131e 10%, transparent)",
+                  }}
+                >
+                  <img
+                    src={heroEstate}
+                    alt="D.C. Norman — private estate at dusk"
+                    width={1920}
+                    height={823}
+                    className="block h-full w-full object-cover hero-kenburns"
+                  />
+                  {/* Subtle inner frame hairline */}
+                  <div
+                    className="pointer-events-none absolute inset-3 md:inset-4 border"
+                    style={{ borderColor: "rgba(255,255,255,0.12)" }}
+                  />
                 </div>
 
-                {/* Right column: meta + headline + intro */}
-                <div className="col-span-12 md:col-span-8 md:col-start-5">
-                  <div className="flex items-baseline justify-between">
-                    <p className="tracked-caps text-[10px] text-muted-foreground">
-                      Est. MCMXCIV
-                    </p>
-                    <p className="tracked-caps text-[10px] text-muted-foreground">
-                      London · Zürich · Singapore
-                    </p>
-                  </div>
+                {/* Typographic plate, overlaid bottom-left */}
+                <Reveal>
+                  <div
+                    className="relative md:absolute md:bottom-0 md:left-8 lg:left-16 z-20 w-full md:max-w-[640px] -mt-10 md:mt-0 p-8 md:p-12 lg:p-16"
+                    style={{
+                      backgroundColor: "#f1eee5",
+                      borderTop: "1px solid color-mix(in oklab, #0b131e 12%, transparent)",
+                      borderRight: "1px solid color-mix(in oklab, #0b131e 12%, transparent)",
+                    }}
+                  >
+                    {/* Meta row */}
+                    <div className="flex items-center gap-6">
+                      <span
+                        className="tracked-caps text-[9px] text-foreground"
+                        style={{ letterSpacing: "0.5em", opacity: 0.45 }}
+                      >
+                        Est. MCMXCIV
+                      </span>
+                      <div
+                        className="h-px flex-1"
+                        style={{ backgroundColor: "color-mix(in oklab, #0b131e 12%, transparent)" }}
+                      />
+                    </div>
 
-                  <Reveal>
+                    {/* Headline */}
                     <h1
-                      className="mt-10 font-serif leading-[0.98] text-foreground text-[3.25rem] md:text-[5.5rem]"
-                      style={{ letterSpacing: "-0.02em" }}
+                      className="mt-8 md:mt-10 font-serif font-medium text-foreground leading-[1.05] tracking-tight text-balance text-[2.25rem] md:text-[3rem] lg:text-[3.5rem]"
                     >
-                      A private counsel
-                      <br />
-                      to enduring
-                      <br />
-                      enterprises.
+                      A private counsel to enduring enterprises.
                     </h1>
-                  </Reveal>
 
-                  <div className="mt-12 grid grid-cols-12 gap-8">
-                    <div className="col-span-12 md:col-span-7 md:col-start-6">
-                      <p className="text-sm leading-relaxed text-foreground/85 md:text-base">
-                        D.C. Norman is an advisory and principal investment house.
-                        We work with a small number of founders, families and
-                        boards on matters of consequence — over decades, not
-                        quarters.
-                      </p>
-                      <p className="tracked-caps mt-8 text-[10px] text-muted-foreground">
-                        By introduction only
-                      </p>
+                    {/* Intro paragraph */}
+                    <p
+                      className="mt-8 md:mt-10 max-w-[420px] text-sm md:text-base leading-relaxed text-foreground"
+                      style={{ opacity: 0.72 }}
+                    >
+                      D.C. Norman is an advisory and principal investment house. We work with a small number of founders, families and boards on matters of consequence — over decades, not quarters.
+                    </p>
+
+                    {/* Footer of plate */}
+                    <div
+                      className="mt-8 flex flex-wrap items-center justify-between gap-4 pt-6"
+                      style={{ borderTop: "1px solid color-mix(in oklab, #0b131e 12%, transparent)" }}
+                    >
+                      <div className="flex gap-5 tracked-caps text-[9px] text-foreground">
+                        <span>London</span>
+                        <span style={{ opacity: 0.35 }}>Zürich</span>
+                        <span style={{ opacity: 0.35 }}>Singapore</span>
+                      </div>
+                      <div
+                        className="tracked-caps text-[9px] text-foreground"
+                        style={{ letterSpacing: "0.3em", opacity: 0.8 }}
+                      >
+                        By Introduction Only
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </Reveal>
 
-              {/* Lower wide plate — gallery feel, offset right */}
-              <div className="mt-24 grid grid-cols-12 gap-8 md:mt-32">
-                <div className="col-span-12 md:col-span-8 md:col-start-5">
-                  <Reveal>
-                    <figure>
-                      <div className="overflow-hidden">
-                        <img
-                          src={heroImg}
-                          alt="D.C. Norman"
-                          className="block h-auto w-full"
-                          style={{ aspectRatio: "16 / 9", objectFit: "cover" }}
-                        />
-                      </div>
-                      <figcaption className="tracked-caps mt-4 text-[10px] text-muted-foreground">
-                        Plate II — Field study
-                      </figcaption>
-                    </figure>
-                  </Reveal>
+                {/* Plate caption — vertical, right edge */}
+                <div className="hidden md:flex absolute bottom-6 right-4 z-10 items-center gap-3">
+                  <div
+                    className="h-10 w-px"
+                    style={{ backgroundColor: "rgba(255,255,255,0.5)" }}
+                  />
+                  <span
+                    className="tracked-caps text-[9px]"
+                    style={{
+                      color: "rgba(255,255,255,0.85)",
+                      writingMode: "vertical-rl",
+                      transform: "rotate(180deg)",
+                      letterSpacing: "0.35em",
+                    }}
+                  >
+                    Plate I — Mayfair, at dusk
+                  </span>
                 </div>
               </div>
             </div>
 
-            <div className="mx-auto mt-24 w-full max-w-[1280px] px-8 md:px-24">
+            <div className="mx-auto mt-32 md:mt-40 w-full max-w-[1280px] px-8 md:px-24">
               <div
                 className={`flex justify-center transition-opacity duration-300 ${scrolled ? "opacity-0" : "opacity-100"}`}
               >

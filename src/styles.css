@@ -99,6 +99,15 @@ html { scroll-behavior: smooth; }
   }
   .arrow-pulse { animation: arrow-pulse 5.5s ease-in-out infinite; }
 
+  @keyframes hero-kenburns {
+    from { transform: scale(1); }
+    to   { transform: scale(1.04); }
+  }
+  .hero-kenburns {
+    transform-origin: center center;
+    animation: hero-kenburns 24s ease-out forwards;
+  }
+
   @keyframes page-fade-in {
     from { opacity: 0; }
     to   { opacity: 1; }
