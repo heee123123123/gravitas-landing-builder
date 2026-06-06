@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import heroImg from "@/assets/hero.jpg";
+import heroEstate from "@/assets/hero-estate.jpg";
 import plateII from "@/assets/plate-ii.jpg";
 import Header from "@/components/Header";
 import IntroAnimation from "@/components/IntroAnimation";
