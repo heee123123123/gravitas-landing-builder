@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import heroImg from "@/assets/hero.jpg";
+import plateII from "@/assets/plate-ii.jpg";
 import Header from "@/components/Header";
 import IntroAnimation from "@/components/IntroAnimation";
 import Reveal from "@/components/Reveal";
@@ -28,34 +29,55 @@ function Index() {
         <Header />
 
         <main className="relative z-10">
-          {/* HERO — editorial masthead, no full-bleed image */}
+          {/* HERO — editorial masthead with flanking plates */}
           <section className="relative w-full pt-40 md:pt-52">
             <div className="mx-auto w-full max-w-[1280px] px-8 md:px-24">
               <div className="grid grid-cols-12 gap-8">
-                <div className="col-span-12 md:col-span-2">
-                  <p className="tracked-caps text-[10px] text-muted-foreground">
-                    Est. MCMXCIV
-                  </p>
+                {/* Left tall plate */}
+                <div className="hidden md:block md:col-span-3">
+                  <Reveal>
+                    <figure>
+                      <div className="overflow-hidden">
+                        <img
+                          src={plateII}
+                          alt="Private offices, Mayfair"
+                          className="block h-auto w-full"
+                          style={{ aspectRatio: "3 / 4", objectFit: "cover", filter: "grayscale(20%)" }}
+                        />
+                      </div>
+                      <figcaption className="tracked-caps mt-3 text-[10px] text-muted-foreground">
+                        Plate I — Offices, Mayfair
+                      </figcaption>
+                    </figure>
+                  </Reveal>
                 </div>
 
-                <div className="col-span-12 md:col-span-10">
-                  <p className="tracked-caps text-[10px] text-muted-foreground">
-                    London · Zürich · Singapore
-                  </p>
+                {/* Right column: meta + headline + intro */}
+                <div className="col-span-12 md:col-span-8 md:col-start-5">
+                  <div className="flex items-baseline justify-between">
+                    <p className="tracked-caps text-[10px] text-muted-foreground">
+                      Est. MCMXCIV
+                    </p>
+                    <p className="tracked-caps text-[10px] text-muted-foreground">
+                      London · Zürich · Singapore
+                    </p>
+                  </div>
 
                   <Reveal>
                     <h1
-                      className="mt-10 font-serif leading-[0.98] text-foreground text-[3.25rem] md:text-[6.25rem]"
+                      className="mt-10 font-serif leading-[0.98] text-foreground text-[3.25rem] md:text-[5.5rem]"
                       style={{ letterSpacing: "-0.02em" }}
                     >
                       A private counsel
                       <br />
-                      to enduring enterprises.
+                      to enduring
+                      <br />
+                      enterprises.
                     </h1>
                   </Reveal>
 
-                  <div className="mt-16 grid grid-cols-12 gap-8">
-                    <div className="col-span-12 md:col-span-5 md:col-start-8">
+                  <div className="mt-12 grid grid-cols-12 gap-8">
+                    <div className="col-span-12 md:col-span-7 md:col-start-6">
                       <p className="text-sm leading-relaxed text-foreground/85 md:text-base">
                         D.C. Norman is an advisory and principal investment house.
                         We work with a small number of founders, families and
@@ -70,9 +92,9 @@ function Index() {
                 </div>
               </div>
 
-              {/* Editorial framed image — gallery feel, not full-bleed */}
-              <div className="mt-28 grid grid-cols-12 gap-8 md:mt-40">
-                <div className="col-span-12 md:col-span-7 md:col-start-4">
+              {/* Lower wide plate — gallery feel, offset right */}
+              <div className="mt-24 grid grid-cols-12 gap-8 md:mt-32">
+                <div className="col-span-12 md:col-span-8 md:col-start-5">
                   <Reveal>
                     <figure>
                       <div className="overflow-hidden">
@@ -80,11 +102,11 @@ function Index() {
                           src={heroImg}
                           alt="D.C. Norman"
                           className="block h-auto w-full"
-                          style={{ aspectRatio: "3 / 2", objectFit: "cover" }}
+                          style={{ aspectRatio: "16 / 9", objectFit: "cover" }}
                         />
                       </div>
                       <figcaption className="tracked-caps mt-4 text-[10px] text-muted-foreground">
-                        Plate I — Offices, Mayfair
+                        Plate II — Field study
                       </figcaption>
                     </figure>
                   </Reveal>
