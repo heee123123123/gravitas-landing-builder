@@ -28,43 +28,88 @@ function Index() {
         <Header />
 
         <main className="relative z-10">
-          {/* HERO */}
-          <section className="relative h-[99.44vh] w-full overflow-hidden">
-            <img
-              src={heroImg}
-              alt=""
-              width={1920}
-              height={1280}
-              className="absolute inset-0 h-full w-full object-cover"
-            />
+          {/* HERO — editorial masthead, no full-bleed image */}
+          <section className="relative w-full pt-40 md:pt-52">
+            <div className="mx-auto w-full max-w-[1280px] px-8 md:px-24">
+              <div className="grid grid-cols-12 gap-8">
+                <div className="col-span-12 md:col-span-2">
+                  <p className="tracked-caps text-[10px] text-muted-foreground">
+                    Est. MCMXCIV
+                  </p>
+                </div>
 
-            <div className="absolute bottom-16 left-[92px] md:bottom-24 md:left-[184px] z-10">
-              <Reveal>
-                <p
-                  className="font-serif leading-[0.95] text-[2.8125rem] md:text-[4.5rem]"
-                  style={{ color: "#e8dcc8" }}
-                >
-                  Refining perception for scale
-                </p>
-              </Reveal>
+                <div className="col-span-12 md:col-span-10">
+                  <p className="tracked-caps text-[10px] text-muted-foreground">
+                    London · Zürich · Singapore
+                  </p>
+
+                  <Reveal>
+                    <h1
+                      className="mt-10 font-serif leading-[0.98] text-foreground text-[3.25rem] md:text-[6.25rem]"
+                      style={{ letterSpacing: "-0.02em" }}
+                    >
+                      A private counsel
+                      <br />
+                      to enduring enterprises.
+                    </h1>
+                  </Reveal>
+
+                  <div className="mt-16 grid grid-cols-12 gap-8">
+                    <div className="col-span-12 md:col-span-5 md:col-start-8">
+                      <p className="text-sm leading-relaxed text-foreground/85 md:text-base">
+                        D.C. Norman is an advisory and principal investment house.
+                        We work with a small number of founders, families and
+                        boards on matters of consequence — over decades, not
+                        quarters.
+                      </p>
+                      <p className="tracked-caps mt-8 text-[10px] text-muted-foreground">
+                        By introduction only
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Editorial framed image — gallery feel, not full-bleed */}
+              <div className="mt-28 grid grid-cols-12 gap-8 md:mt-40">
+                <div className="col-span-12 md:col-span-7 md:col-start-4">
+                  <Reveal>
+                    <figure>
+                      <div className="overflow-hidden">
+                        <img
+                          src={heroImg}
+                          alt="D.C. Norman"
+                          className="block h-auto w-full"
+                          style={{ aspectRatio: "3 / 2", objectFit: "cover" }}
+                        />
+                      </div>
+                      <figcaption className="tracked-caps mt-4 text-[10px] text-muted-foreground">
+                        Plate I — Offices, Mayfair
+                      </figcaption>
+                    </figure>
+                  </Reveal>
+                </div>
+              </div>
             </div>
 
-            <div
-              className={`absolute inset-x-0 bottom-8 z-10 flex justify-center transition-opacity duration-300 ${scrolled ? "opacity-0" : "opacity-100"}`}
-            >
-              <svg
-                className="arrow-pulse"
-                width="14"
-                height="22"
-                viewBox="0 0 14 22"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1"
-                style={{ color: "#e8dcc8" }}
+            <div className="mx-auto mt-24 w-full max-w-[1280px] px-8 md:px-24">
+              <div
+                className={`flex justify-center transition-opacity duration-300 ${scrolled ? "opacity-0" : "opacity-100"}`}
               >
-                <line x1="7" y1="0" x2="7" y2="20" />
-                <polyline points="1,14 7,20 13,14" />
-              </svg>
+                <svg
+                  className="arrow-pulse"
+                  width="14"
+                  height="22"
+                  viewBox="0 0 14 22"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  style={{ color: "#0b131e" }}
+                >
+                  <line x1="7" y1="0" x2="7" y2="20" />
+                  <polyline points="1,14 7,20 13,14" />
+                </svg>
+              </div>
             </div>
           </section>
 
